@@ -3,4 +3,11 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
+  has_many :messages, dependent: :destroy
+  has_many :games, through: :user_games
+
+
+  def current_game
+    UserGame.find_by(status: :current, user: this)
+  end
 end
