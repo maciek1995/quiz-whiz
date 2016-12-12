@@ -4,10 +4,11 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
   has_many :messages, dependent: :destroy
+  has_many :user_games
   has_many :games, through: :user_games
 
 
   def current_game
-    UserGame.find_by(status: :current, user: this)
+    games.find_by(status: [:ready, :started])
   end
 end
