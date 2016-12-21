@@ -1,2 +1,7 @@
 <h1>Games#show</h1>
 <p><%= @game.name %></p>
+<% @game.users.each do |user| %>
+  <p><%= user.email %></p>
+<% end %>
+
+<%= button_to "Abort", abort_game_path, method: :post %>

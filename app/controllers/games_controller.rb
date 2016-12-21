@@ -1,30 +1,34 @@
 class GamesController < ApplicationController
-
-  def index
-
-  end
+  before_action :authenticate_user!
+  before_action :set_game, only: [:finish, :abort, :show]
 
   def play_now
-    if @game = Game.first_pending
-      UserGame.create(user: current_user, game: @game)
-      @game.status = :ready
-      @game.save
-      redirect_to action: "current"
-    else
-      redirect_to action: "new"
-    end
+    @game = current_user.games.find_by(status: [:pending, :ready, :current])
+    @game ||= Game::PlayNow.new(current_user).call
+    redirect_to @game
   end
 
-  def new
-    @game = Game.new
+  def finish
+    authorize @game
+    @game.update(status: :finished)
+
+    redirect_to root_path
   end
 
-  def current
-    @game = current_user.current_game
-    redirect_to action: "play_now" unless @game
-    @message = Message.new
+  def abort
+    authorize @game
+    @game.update(status: :aborted)
+
+    redirect_to root_path
   end
 
   def show
+    authorize @game
+  end
+
+  private
+
+  def set_game
+    @game = Game.find(params[:id])
   end
 end
