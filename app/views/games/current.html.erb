@@ -1,0 +1,15 @@
+<h3>Current game</h3>
+<h4><%= @game.name %></h4>
+
+<div class="panel panel-default">
+  <% if @game.messages.any? %>
+    <div class="panel-body" id="messages">
+    
+    </div>
+  <%else%>
+    <div class="panel-body hidden" id="messages">
+    </div>
+  <%end%>
+</div>
+
+<%= render partial: 'messages/message_form', locals: {message: @message, game: @game}%>
