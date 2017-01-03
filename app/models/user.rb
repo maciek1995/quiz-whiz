@@ -6,4 +6,7 @@ class User < ApplicationRecord
   has_many :messages, dependent: :destroy
   has_many :user_games
   has_many :games, through: :user_games
+
+  has_many :answers
+
 end
