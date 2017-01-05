@@ -9,4 +9,7 @@ class User < ApplicationRecord
 
   has_many :answers
 
+  def appear(game_id)
+    GameBroadcastJob.perform_later(game_id)
+  end
 end

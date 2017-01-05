@@ -1,10 +1,11 @@
 class GamesController < ApplicationController
-  before_action :authenticate_user!
+  # before_action :authenticate_user!
   before_action :set_game, only: [:finish, :abort, :show]
 
   def play_now
     @game = current_user.games.find_by(status: [:pending, :ready, :current])
     @game ||= Game::PlayNow.new(current_user).call
+
     redirect_to @game
   end
 
@@ -29,6 +30,6 @@ class GamesController < ApplicationController
   private
 
   def set_game
-    @game = Game.find(params[:id])
+    @game = Game.includes(:users, :questions).find(params[:id])
   end
 end
