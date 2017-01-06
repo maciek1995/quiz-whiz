@@ -3,11 +3,19 @@
   <head>
     <title>QuizWhiz</title>
     <%= csrf_meta_tags %>
+    <%= action_cable_meta_tag %>
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+    
+    <!--&lt;!&ndash; do wyjebania &ndash;&gt;-->
+    <!--<script src="jquery-3.1.1.min.js"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></script>-->
+    <!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>-->
 
+    <!--&lt;!&ndash; ==== &ndash;&gt;-->
+  </head>
+  
   <body>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
