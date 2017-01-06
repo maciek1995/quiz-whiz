@@ -18,3 +18,5 @@
 //= require components
 //= require_tree .
 //= require_tree ./channels
+
+//= require bootstrap-sprockets
