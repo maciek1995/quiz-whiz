@@ -3,8 +3,11 @@ class Game extends React.Component {
         super(props);
 
         this.state = {
-            game: JSON.parse(props.game)
+            game: props.game,
+            current_user: props.current_user,
+            questions: props.questions
         };
+
         this.updateGame = this.updateGame.bind(this)
     }
 
@@ -15,27 +18,13 @@ class Game extends React.Component {
     render () {
         return (
             <div>
-                {this.state.game.name}
-                <div>
-                    {"me: " + this.state.game.current_user.email}
-                </div>
-                <div>
-                    {this.state.game.opponent ? this.state.game.opponent.email : ""}
-                </div>
-                <div>
-                    {this.state.game.questions[0].text}<br/>
-                    {"a: " + this.state.game.questions[0].answers.a}<br/>
-                    {"b: " + this.state.game.questions[0].answers.b}<br/>
-                    {"c: " + this.state.game.questions[0].answers.c}<br/>
-                    {"d: " + this.state.game.questions[0].answers.d}<br/>
-                </div>
+
             </div>
         )
     }
 
-    updateGame(game){
-        console.log(JSON.parse(game));
-        // this.setState({game: JSON.parse(game)})
+    updateGame(data){
+        console.log(JSON.parse(data));
     }
 
     setupSubscription() {
@@ -54,8 +43,8 @@ class Game extends React.Component {
                         }
                     ), 1000);
                 },
-                received: function(game) {
-                    this.updateGame(game);
+                received: function(data) {
+                    this.updateGame(data);
     },
                 updateGame: this.updateGame
             }
