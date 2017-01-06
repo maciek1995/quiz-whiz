@@ -1,0 +1,27 @@
+.users-board {
+  position: relative;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid $color;
+  &__profile {
+    padding: 0;
+    text-align: center;
+    &--left {
+      border-right: 1px solid $color;
+    }
+    &__name {
+      margin-top: 20px;
+    }
+    &__score {
+      position: absolute;
+      &--left {
+        top: 0;
+        right: 25%;
+      }
+      &--right {
+        top: 0;
+        left: 25%;
+      }
+    }
+  }
+}

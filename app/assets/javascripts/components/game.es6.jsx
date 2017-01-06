@@ -1,10 +1,10 @@
 class Game extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
             game: props.game,
-            current_user: props.current_user,
+            currentUser: props.currentUser,
             questions: props.questions
         };
 
@@ -15,40 +15,44 @@ class Game extends React.Component {
         this.setupSubscription();
     }
 
-    render () {
+    render() {
         return (
-            <div>
+            <div className="container">
+               <ProfilesBoard me={this.state.currentUser} opponent={this.state.currentUser}/>
+                <section className="question-board">
+                    <div className="row">
 
+                    </div>
+                </section>
             </div>
         )
     }
 
-    updateGame(data){
+    updateGame(data) {
         console.log(JSON.parse(data));
     }
 
     setupSubscription() {
         App.comments = App.cable.subscriptions.create({
-            channel: "GamesChannel",
-            game_id: this.state.game.id
-        },
+                channel: "GamesChannel",
+                game_id: this.state.game.id
+            },
             {
-                current_user: this.state.game.current_user,
+                currentUser: this.state.game.currentUser,
                 game_id: this.state.game.id,
-                connected: function() {
+                connected: function () {
                     setTimeout(() => this.perform('appear',
                         {
                             game_id: this.game_id,
-                            user: this.current_user
+                            user: this.currentUser
                         }
                     ), 1000);
                 },
-                received: function(data) {
+                received: function (data) {
                     this.updateGame(data);
-    },
+                },
                 updateGame: this.updateGame
             }
-
         );
     }
 }
