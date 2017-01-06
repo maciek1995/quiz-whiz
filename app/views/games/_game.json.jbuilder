@@ -1,6 +1,5 @@
-json.(game, :id, :status, :name, :created_at, :updated_at)
-json.opponent do
-  json.email (game.users - [current_user]).first.email
-end if game.users.count == 2
-json.current_user(current_user, :email)
-json.questions(game.questions, :text, :answers, :correct_answer)
+json.(game, :status)
+json.users game.users do |user|
+  json.name user.email
+  json.answers(user.answers, :score, :game_question_id)
+end
