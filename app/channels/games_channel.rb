@@ -4,12 +4,6 @@ class GamesChannel < ApplicationCable::Channel
   end
 
   def appear(data)
-    mock_env = Rack::MockRequest.env_for('/')
-    catch(:env) do
-      Rails.application.middleware.build(->(env) {
-        throw :env, env
-      }).call mock_env
-    end
     ActionCable.server.broadcast(
         "game_#{data['game_id']}",
         {
