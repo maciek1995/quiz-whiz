@@ -1,0 +1,36 @@
+.navbar {
+  &__brand-name {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 80px;
+    float: left;
+    &--first {
+      display: block;
+      margin-bottom: 0;
+    }
+    &--second {
+      display: block;
+      padding-left: 20px;
+    }
+  }
+  &__logo {
+    height: 80px;
+    float: left;
+    &:after {
+      clear: left;
+    }
+  }
+  &__right-section{
+    line-height: 80px;
+    padding-right: 40px;
+    p {
+      margin: 0;
+    }
+    &--session-info {
+      padding-right: 15px;
+    }
+    &--logout-info {
+    }
+  }
+}
