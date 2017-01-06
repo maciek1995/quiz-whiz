@@ -35,7 +35,7 @@ class Game extends React.Component {
 
     updateGame(game){
         console.log(JSON.parse(game));
-        this.setState({game: JSON.parse(game)})
+        // this.setState({game: JSON.parse(game)})
     }
 
     setupSubscription() {
