@@ -1,5 +1,5 @@
 class GamesController < ApplicationController
-  # before_action :authenticate_user!
+  before_action :authenticate_user!
   before_action :set_game, only: [:finish, :abort, :show]
 
   def play_now
@@ -30,6 +30,6 @@ class GamesController < ApplicationController
   private
 
   def set_game
-    @game = Game.includes(:users, :questions).find(params[:id])
+    @game = Game.find(params[:id])
   end
 end
