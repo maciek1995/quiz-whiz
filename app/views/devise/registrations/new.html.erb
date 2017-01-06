@@ -11,7 +11,7 @@
   <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
+      <em>(<%= @minimum_password_length %> characters minimum)</em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "off" %>
   </div>
@@ -20,6 +20,18 @@
     <%= f.label :password_confirmation %><br />
     <%= f.password_field :password_confirmation, autocomplete: "off" %>
   </div>
+
+  <div class="field">
+    <%= f.label :username %><br />
+    <%= f.text_field :username, autocomplete: "off" %>
+  </div>
+
+  <h3>Choose your avatar!</h3>
+  <% (1..12).each do |index| %>
+    <%= image_tag "#{index}.png", class: "avatar" %>
+  <% end %>
+
+  <%= f.hidden_field :avatar_path, id: "avatar_path" %>
 
   <div class="actions">
     <%= f.submit "Sign up" %>
