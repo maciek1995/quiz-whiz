@@ -13,8 +13,6 @@ class Game extends React.Component {
     }
 
     render () {
-        console.log(this.state)
-
         return (
             <div>
                 {this.state.game.name}
@@ -57,9 +55,8 @@ class Game extends React.Component {
                     ), 1000);
                 },
                 received: function(game) {
-                    console.log("asdfdsa");
                     this.updateGame(game);
-                },
+    },
                 updateGame: this.updateGame
             }
 
