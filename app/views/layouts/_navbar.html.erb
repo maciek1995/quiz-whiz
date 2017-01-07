@@ -1,0 +1,23 @@
+<nav class="navbar navbar-default navbar-fixed-top">
+  <div class="container-fluid">
+    <div class="navbar-header nav navbar-nav navbar-left">
+      <a href="#">
+        <img alt="Brand" src="http://brain.im/app/images/brain.png" class="navbar__logo">
+      </a>
+      <section class="navbar-brand navbar__brand-name">
+        <p class="navbar__brand-name--first">Quiz</p>
+        <p class="navbar__brand-name--second">Whiz</p>
+      </section>
+    </div>
+
+    <div class="nav navbar-nav navbar-right navbar__right-section">
+      <% if current_user %>
+          <span class="navbar__right-section--session-info">Signed in as <strong><%= current_user.email %></strong></span>
+          <span class="navbar__right-section--logout-info">
+            <%= link_to 'Log Out', destroy_user_session_path, method: :delete %>
+            <i class="fa fa-power-off" aria-hidden="true"></i>
+          </span>
+      <% end %>
+    </div>
+  </div>
+</nav>

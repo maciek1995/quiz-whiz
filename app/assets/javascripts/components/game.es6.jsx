@@ -1,65 +1,71 @@
 class Game extends React.Component {
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
-            game: JSON.parse(props.game)
+            game: props.game,
+            currentUser: props.currentUser,
+            questions: props.questions,
+            second: 0
         };
         this.updateGame = this.updateGame.bind(this)
     }
 
     componentDidMount() {
         this.setupSubscription();
+        setInterval(function () {
+            this.setState({second: this.state.second + 1})
+        }.bind(this), 1000);
     }
 
-    render () {
+    render() {
         return (
-            <div>
-                {this.state.game.name}
-                <div>
-                    {"me: " + this.state.game.current_user.email}
-                </div>
-                <div>
-                    {this.state.game.opponent ? this.state.game.opponent.email : ""}
-                </div>
-                <div>
-                    {this.state.game.questions[0].text}<br/>
-                    {"a: " + this.state.game.questions[0].answers.a}<br/>
-                    {"b: " + this.state.game.questions[0].answers.b}<br/>
-                    {"c: " + this.state.game.questions[0].answers.c}<br/>
-                    {"d: " + this.state.game.questions[0].answers.d}<br/>
-                </div>
+            <div className="container">
+
+                <form role='form' action={"/games/" + this.state.game.id + "/abort"} method="post">
+                    <input type='hidden' name='authenticity_token' value={this.props.authenticity_token}/>
+                    <button type="submit" className="btn btn-danger" onClick={this._abort}>Abort</button>
+                </form>
+
+                <ProfilesBoard me={this.state.currentUser} opponent={this.state.currentUser}/>
+                <GamePlay me={this.state.currentUser}
+                          opponent={this.state.currentUser}
+                          sec={this.state.second}
+                />
             </div>
         )
     }
 
-    updateGame(game){
-        console.log(JSON.parse(game));
-        this.setState({game: JSON.parse(game)})
+
+    updateGame(data) {
+        data = JSON.parse(data);
+        let newGame = Object.assign({}, this.state.game, {status: data.game_status});
+        this.setState({
+            game: newGame
+        });
     }
 
     setupSubscription() {
         App.comments = App.cable.subscriptions.create({
-            channel: "GamesChannel",
-            game_id: this.state.game.id
-        },
+                channel: "GamesChannel",
+                game_id: this.state.game.id
+            },
             {
-                current_user: this.state.game.current_user,
+                currentUser: this.state.game.currentUser,
                 game_id: this.state.game.id,
-                connected: function() {
+                connected: function () {
                     setTimeout(() => this.perform('appear',
                         {
                             game_id: this.game_id,
-                            user: this.current_user
+                            user: this.currentUser
                         }
                     ), 1000);
                 },
-                received: function(game) {
-                    this.updateGame(game);
-    },
+                received: function (data) {
+                    this.updateGame(data);
+                },
                 updateGame: this.updateGame
             }
-
         );
     }
 }
