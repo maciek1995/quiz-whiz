@@ -4,6 +4,6 @@ class GamesChannel < ApplicationCable::Channel
   end
 
   def appear(data)
-    GameBroadcastJob.perform_later(data['game_id'])
+    GameBroadcastJob.perform_later(data['game_id'], nil, nil, nil)
   end
 end

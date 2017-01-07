@@ -6,23 +6,29 @@ class Game extends React.Component {
             game: props.game,
             currentUser: props.currentUser,
             opponent: null,
-            questions: props.questions,
+            currentQuestionIndex: -1,
+            answered: false,
             second: 0
         };
-        this.updateGame = this.updateGame.bind(this)
+        this.updateGame = this.updateGame.bind(this);
+        this.triggerNextQuestion  = this.triggerNextQuestion.bind(this);
+        this.toggleAnswered = this.toggleAnswered.bind(this);
     }
 
     componentDidMount() {
         this.setupSubscription();
+        console.log("QUESTIONS");
+        console.log(this.props.questions);
     }
 
-    componentDidUpdate(prevProps, prevState) {
-        console.log(prevState.game.status);
-        if(this.state.game.status === 'current' && this.state.second === 0) {
-            setInterval(function () {
-                this.setState({second: this.state.second + 1})
-            }.bind(this), 1000);
-        }
+    toggleAnswered() {
+        this.setState({
+            answered: !this.state.answered
+        }, function () {
+            if(this.state.answered === true && this.props.questions[this.state.currentQuestionIndex].id === this.state.opponent.answer.question_id) {
+                this.triggerNextQuestion();
+            }
+        });
     }
 
     render() {
@@ -35,25 +41,50 @@ class Game extends React.Component {
                 </form>
 
                 <ProfilesBoard currentUser={this.state.currentUser} opponent={this.state.opponent}/>
-                <GamePlay me={this.state.currentUser}
-                          opponent={this.state.currentUser}
+                <GamePlay currentUser={this.state.currentUser}
+                          opponent={this.state.opponent}
+                          question={this.props.questions[this.state.currentQuestionIndex]}
                           sec={this.state.second}
+                          csrf={this.props.authenticity_token}
+                          gameId={this.state.game.id}
+                          triggerNextQuestion={this.triggerNextQuestion}
+                          toggleAnswered={this.toggleAnswered}
                 />
             </div>
         )
     }
 
+    triggerNextQuestion() {
+        this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, second: 0, answered: false}, ()=> {
+            setInterval(function () {
+                this.setState({second: this.state.second + 1})
+            }.bind(this), 1000);
+        });
+    }
 
     updateGame(data) {
         data = JSON.parse(data);
+        console.log(data);
+
         let newGame = Object.assign({}, this.state.game, {status: data.game_status});
         let opponent = data.users.find((user)=>{
             return user.id !== this.state.currentUser.id;
         });
+
         this.setState({
             game: newGame,
             opponent: opponent
+        }, function () {
+            if (this.state.game.status === 'current' && this.state.second === 0 && !this.state.opponent.answer || (
+                    this.state.opponent.answer && this.state.opponent.answer.question_id === this.props.questions[
+                        this.state.currentQuestionIndex].id
+                    && this.state.answered
+                )
+            ) {
+                this.triggerNextQuestion();
+            }
         });
+
     }
 
     setupSubscription() {

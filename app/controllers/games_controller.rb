@@ -30,6 +30,6 @@ class GamesController < ApplicationController
   private
 
   def set_game
-    @game = Game.find(params[:id])
+    @game = Game.includes(:questions).where(id: params[:id]).order(:id).first
   end
 end

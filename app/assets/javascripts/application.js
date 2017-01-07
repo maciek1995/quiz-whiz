@@ -14,6 +14,7 @@
 
 $(function () {
     $('.avatar').click( function () {
+        console.log(this.src);
         $('#avatar_path').val(this.src);
     });
 });
