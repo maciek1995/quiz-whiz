@@ -8,9 +8,7 @@ class Game extends React.Component {
             questions: props.questions,
             second: 0
         };
-        console.log(props.game);
         this.updateGame = this.updateGame.bind(this)
-        this._abort = this._abort.bind(this);
     }
 
     componentDidMount() {
@@ -20,17 +18,12 @@ class Game extends React.Component {
         }.bind(this), 1000);
     }
 
-    _abort() {
-
-
-    }
-
     render() {
         return (
             <div className="container">
 
-                <form role='form' accept-charset="UTF-8" action={"/games/" + this.state.game.id + "/abort"} method="post">
-                    <input type='hidden' name='authenticity_token' value={this.props.authenticity_token} />
+                <form role='form' action={"/games/" + this.state.game.id + "/abort"} method="post">
+                    <input type='hidden' name='authenticity_token' value={this.props.authenticity_token}/>
                     <button type="submit" className="btn btn-danger" onClick={this._abort}>Abort</button>
                 </form>
 
@@ -43,12 +36,10 @@ class Game extends React.Component {
         )
     }
 
+
     updateGame(data) {
-        console.log();
         data = JSON.parse(data);
         let newGame = Object.assign({}, this.state.game, {status: data.game_status});
-        console.log(data.game_status);
-        console.log(newGame);
         this.setState({
             game: newGame
         });
