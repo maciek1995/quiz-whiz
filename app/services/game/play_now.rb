@@ -7,7 +7,7 @@ class Game::PlayNow
     game = Game.find_by(status: :pending)
     if game
       UserGame.create(user: current_user, game: game)
-      game.status = :ready
+      game.status = :current
       game.save
     else
       game = Game.create(name: "Quick Game", status: :pending)

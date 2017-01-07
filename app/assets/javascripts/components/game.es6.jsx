@@ -5,6 +5,7 @@ class Game extends React.Component {
         this.state = {
             game: props.game,
             currentUser: props.currentUser,
+            opponent: null,
             questions: props.questions,
             second: 0
         };
@@ -13,9 +14,15 @@ class Game extends React.Component {
 
     componentDidMount() {
         this.setupSubscription();
-        setInterval(function () {
-            this.setState({second: this.state.second + 1})
-        }.bind(this), 1000);
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        console.log(prevState.game.status);
+        if(this.state.game.status === 'current' && this.state.second === 0) {
+            setInterval(function () {
+                this.setState({second: this.state.second + 1})
+            }.bind(this), 1000);
+        }
     }
 
     render() {
@@ -27,7 +34,7 @@ class Game extends React.Component {
                     <button type="submit" className="btn btn-danger" onClick={this._abort}>Abort</button>
                 </form>
 
-                <ProfilesBoard me={this.state.currentUser} opponent={this.state.currentUser}/>
+                <ProfilesBoard currentUser={this.state.currentUser} opponent={this.state.opponent}/>
                 <GamePlay me={this.state.currentUser}
                           opponent={this.state.currentUser}
                           sec={this.state.second}
@@ -40,8 +47,12 @@ class Game extends React.Component {
     updateGame(data) {
         data = JSON.parse(data);
         let newGame = Object.assign({}, this.state.game, {status: data.game_status});
+        let opponent = data.users.find((user)=>{
+            return user.id !== this.state.currentUser.id;
+        });
         this.setState({
-            game: newGame
+            game: newGame,
+            opponent: opponent
         });
     }
 
