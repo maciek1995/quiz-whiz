@@ -10,20 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170107190213) do
+ActiveRecord::Schema.define(version: 20170110162322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
-
-  create_table "answers", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "game_question_id"
-    t.integer  "score"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
-    t.index ["game_question_id"], name: "index_answers_on_game_question_id", using: :btree
-    t.index ["user_id"], name: "index_answers_on_user_id", using: :btree
-  end
 
   create_table "game_questions", force: :cascade do |t|
     t.integer  "game_id"
@@ -39,16 +29,6 @@ ActiveRecord::Schema.define(version: 20170107190213) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "status"
-  end
-
-  create_table "messages", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "game_id"
-    t.text     "text"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["game_id"], name: "index_messages_on_game_id", using: :btree
-    t.index ["user_id"], name: "index_messages_on_user_id", using: :btree
   end
 
   create_table "questions", force: :cascade do |t|
@@ -88,12 +68,8 @@ ActiveRecord::Schema.define(version: 20170107190213) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
-  add_foreign_key "answers", "game_questions"
-  add_foreign_key "answers", "users"
   add_foreign_key "game_questions", "games"
   add_foreign_key "game_questions", "questions"
-  add_foreign_key "messages", "games"
-  add_foreign_key "messages", "users"
   add_foreign_key "user_games", "games"
   add_foreign_key "user_games", "users"
 end
