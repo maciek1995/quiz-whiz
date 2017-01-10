@@ -4,6 +4,10 @@ class Game::PlayNow
   end
 
   def call
+    if(game = current_user.games.find_by(status: [:pending, :ready, :current]))
+      return game
+    end
+
     game = Game.find_by(status: :pending)
     if game
       UserGame.create(user: current_user, game: game)

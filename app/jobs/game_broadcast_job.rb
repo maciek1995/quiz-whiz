@@ -6,6 +6,12 @@ class GameBroadcastJob < ApplicationJob
         "game_#{game_id}",
         GamesController.render(
             partial: 'games/game.json',
-            locals: {game: Game.find(game_id), answer: {question_id: question_id, score: score}, current_user: current_user}))
+            locals: {
+                game: Game.find(game_id),
+                answer: {
+                    question_id: question_id,
+                    score: score
+                },
+                current_user: current_user}))
   end
 end

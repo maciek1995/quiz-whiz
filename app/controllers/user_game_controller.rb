@@ -13,6 +13,5 @@ class UserGameController < ApplicationController
 
   def set_user_game
     @user_game = UserGame.find_by(user: current_user, game_id: params[:game_id])
-    p @user_game
   end
 end
