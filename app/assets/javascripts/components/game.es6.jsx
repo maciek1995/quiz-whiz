@@ -6,29 +6,21 @@ class Game extends React.Component {
             game: props.game,
             currentUser: props.currentUser,
             opponent: null,
-            currentQuestionIndex: -1,
+            currentQuestionIndex: null,
             answered: false,
-            second: 0
+            seconds: 0,
+            gameStarted: false
         };
+
         this.updateGame = this.updateGame.bind(this);
+        this.shouldStartGame = this.shouldStartGame.bind(this);
+        this.shouldTriggerNextQuestion = this.shouldTriggerNextQuestion.bind(this);
         this.triggerNextQuestion  = this.triggerNextQuestion.bind(this);
-        this.toggleAnswered = this.toggleAnswered.bind(this);
+        this.triggerAnswer = this.triggerAnswer.bind(this);
     }
 
     componentDidMount() {
         this.setupSubscription();
-        console.log("QUESTIONS");
-        console.log(this.props.questions);
-    }
-
-    toggleAnswered() {
-        this.setState({
-            answered: !this.state.answered
-        }, function () {
-            if(this.state.answered === true && this.props.questions[this.state.currentQuestionIndex].id === this.state.opponent.answer.question_id) {
-                this.triggerNextQuestion();
-            }
-        });
     }
 
     render() {
@@ -44,27 +36,17 @@ class Game extends React.Component {
                 <GamePlay currentUser={this.state.currentUser}
                           opponent={this.state.opponent}
                           question={this.props.questions[this.state.currentQuestionIndex]}
-                          sec={this.state.second}
+                          sec={this.state.seconds}
                           csrf={this.props.authenticity_token}
                           gameId={this.state.game.id}
-                          triggerNextQuestion={this.triggerNextQuestion}
-                          toggleAnswered={this.toggleAnswered}
+                          triggerAnswer={this.triggerAnswer}
                 />
             </div>
         )
     }
 
-    triggerNextQuestion() {
-        this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, second: 0, answered: false}, ()=> {
-            setInterval(function () {
-                this.setState({second: this.state.second + 1})
-            }.bind(this), 1000);
-        });
-    }
-
     updateGame(data) {
         data = JSON.parse(data);
-        console.log(data);
 
         let newGame = Object.assign({}, this.state.game, {status: data.game_status});
         let opponent = data.users.find((user)=>{
@@ -75,14 +57,8 @@ class Game extends React.Component {
             game: newGame,
             opponent: opponent
         }, function () {
-            if (this.state.game.status === 'current' && this.state.second === 0 && !this.state.opponent.answer || (
-                    this.state.opponent.answer && this.state.opponent.answer.question_id === this.props.questions[
-                        this.state.currentQuestionIndex].id
-                    && this.state.answered
-                )
-            ) {
-                this.triggerNextQuestion();
-            }
+            this.shouldStartGame();
+            this.shouldTriggerNextQuestion();
         });
 
     }
@@ -109,5 +85,34 @@ class Game extends React.Component {
                 updateGame: this.updateGame
             }
         );
+    }
+
+    shouldStartGame() {
+        if(!this.state.gameStarted && this.state.game.status == "current"){
+            this.setState({gameStarted: true, currentQuestionIndex: 0},
+                ()=> {
+                    setInterval(function () {
+                        this.setState({seconds: this.state.seconds + 1})
+                    }.bind(this), 1000);
+                }
+            )
+        }
+    }
+
+    shouldTriggerNextQuestion() {
+        let opponent_answer = this.state.opponent.answer;
+        if(opponent_answer && opponent_answer.question_id === this.props.questions[this.state.currentQuestionIndex].id && this.state.answered){
+            this.triggerNextQuestion();
+        }
+    }
+
+    triggerNextQuestion() {
+        this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, seconds: 0, answered: false});
+    }
+
+    triggerAnswer() {
+        this.setState({
+            answered: true
+        }, this.shouldTriggerNextQuestion);
     }
 }

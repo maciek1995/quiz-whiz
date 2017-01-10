@@ -8,8 +8,7 @@ class GamePlay extends React.Component {
                                     csrf={this.props.csrf}
                                     gameID={this.props.gameId}
                                     opponent={this.props.opponent}
-                                    triggerNextQuestion={this.props.triggerNextQuestion}
-                                    toggleAnswered={this.props.toggleAnswered}
+                                    triggerAnswer={this.props.triggerAnswer}
                     />
                 </div>
 

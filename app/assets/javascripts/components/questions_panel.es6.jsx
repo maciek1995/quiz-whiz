@@ -8,6 +8,8 @@ class QuestionsPanel extends React.Component {
 
         this._handleOptionChange = this._handleOptionChange.bind(this);
         this._handleSubmit = this._handleSubmit.bind(this);
+
+        console.log(props);
     }
 
     _renderQuestion(question) {
@@ -66,20 +68,8 @@ class QuestionsPanel extends React.Component {
                 score: score
             }
         }).done(function () {
-            self.props.toggleAnswered();
+            self.props.triggerAnswer();
         });
-        // $.put(
-        //     path,
-        //     {
-        //         authenticity_token: csrf,
-        //         question_id: this.props.question.id,
-        //         score: score
-        //     }
-        // );
-    }
-
-    componentDidMount() {
-        console.log("Q" + JSON.stringify(this.props.question));
     }
 
     render() {
