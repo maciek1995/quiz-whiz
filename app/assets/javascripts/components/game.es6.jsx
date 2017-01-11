@@ -8,7 +8,7 @@ class Game extends React.Component {
             opponent: null,
             currentQuestionIndex: null,
             answered: false,
-            seconds: 0,
+            seconds: 10,
             gameStarted: false
         };
 
@@ -17,10 +17,15 @@ class Game extends React.Component {
         this.shouldTriggerNextQuestion = this.shouldTriggerNextQuestion.bind(this);
         this.triggerNextQuestion  = this.triggerNextQuestion.bind(this);
         this.triggerAnswer = this.triggerAnswer.bind(this);
+        this.checkIfTimeFinished = this.checkIfTimeFinished.bind(this);
     }
 
     componentDidMount() {
         this.setupSubscription();
+    }
+
+    componentDidUpdate() {
+        this.checkIfTimeFinished();
     }
 
     render() {
@@ -92,7 +97,7 @@ class Game extends React.Component {
             this.setState({gameStarted: true, currentQuestionIndex: 0},
                 ()=> {
                     setInterval(function () {
-                        this.setState({seconds: this.state.seconds + 1})
+                        this.setState({seconds: this.state.seconds - 1})
                     }.bind(this), 1000);
                 }
             )
@@ -107,12 +112,37 @@ class Game extends React.Component {
     }
 
     triggerNextQuestion() {
-        this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, seconds: 0, answered: false});
+        this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, seconds: 10, answered: false});
     }
 
     triggerAnswer() {
         this.setState({
             answered: true
         }, this.shouldTriggerNextQuestion);
+    }
+
+    checkIfTimeFinished() {
+        if(this.state.seconds == 0 && this.state.game.status == "current") {
+            let authenticity_token = this.props.authenticity_token;
+            let question_id = this.props.questions[this.state.currentQuestionIndex].id;
+            let game_id = this.state.game.id;
+            let self = this;
+            let path = "http://localhost:3000/user_game/" + game_id;
+            this.setState({seconds: 10},
+                () => {
+                    $.ajax({
+                        method: "PUT",
+                        url: path,
+                        data: {
+                            authenticity_token: authenticity_token,
+                            question_id: question_id,
+                            game_id: game_id,
+                            score: 0
+                        }
+                    }).done(function () {
+                        self.triggerAnswer();
+                    });
+                });
+        }
     }
 }
