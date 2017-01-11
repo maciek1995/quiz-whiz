@@ -18,7 +18,7 @@ class GamesController < ApplicationController
   def abort
     authorize @game
     @game.update(status: :aborted)
-
+    GameBroadcastJob.set(wait: 3.seconds).perform_later(params[:id].to_i, nil, nil, current_user)
     redirect_to root_path
   end
 

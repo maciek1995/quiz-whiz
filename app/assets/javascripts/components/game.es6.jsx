@@ -36,7 +36,6 @@ class Game extends React.Component {
                     <input type='hidden' name='authenticity_token' value={this.props.authenticity_token}/>
                     <button type="submit" className="btn btn-danger" onClick={this._abort}>Abort</button>
                 </form>
-
                 <ProfilesBoard currentUser={this.state.currentUser} opponent={this.state.opponent}/>
                 <GamePlay currentUser={this.state.currentUser}
                           opponent={this.state.opponent}
@@ -46,6 +45,9 @@ class Game extends React.Component {
                           gameId={this.state.game.id}
                           triggerAnswer={this.triggerAnswer}
                 />
+                { this.state.game.status === 'aborted' &&
+                    <AbortedModal/>
+                }
             </div>
         )
     }
