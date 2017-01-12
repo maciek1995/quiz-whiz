@@ -10,13 +10,15 @@ class GamesController < ApplicationController
 
   def finish
     authorize @game
-    @game.update(status: :finished)
 
-    redirect_to root_path
+    if @game.update(status: :finished)
+      GameBroadcastJob.perform_later(params[:id].to_i, nil, nil, current_user)
+    end
   end
 
   def abort
     authorize @game
+
     @game.update(status: :aborted)
     GameBroadcastJob.set(wait: 3.seconds).perform_later(params[:id].to_i, nil, nil, current_user)
     redirect_to root_path

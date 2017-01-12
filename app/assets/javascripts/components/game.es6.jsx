@@ -15,7 +15,7 @@ class Game extends React.Component {
         this.updateGame = this.updateGame.bind(this);
         this.shouldStartGame = this.shouldStartGame.bind(this);
         this.shouldTriggerNextQuestion = this.shouldTriggerNextQuestion.bind(this);
-        this.triggerNextQuestion  = this.triggerNextQuestion.bind(this);
+        this.triggerNextQuestion = this.triggerNextQuestion.bind(this);
         this.triggerAnswer = this.triggerAnswer.bind(this);
         this.checkIfTimeFinished = this.checkIfTimeFinished.bind(this);
     }
@@ -46,7 +46,10 @@ class Game extends React.Component {
                           triggerAnswer={this.triggerAnswer}
                 />
                 { this.state.game.status === 'aborted' &&
-                    <AbortedModal/>
+                <AbortedModal/>
+                }
+                { this.state.game.status === 'finished' &&
+                <AbortedModal/>
                 }
             </div>
         )
@@ -56,7 +59,7 @@ class Game extends React.Component {
         data = JSON.parse(data);
 
         let newGame = Object.assign({}, this.state.game, {status: data.game_status});
-        let opponent = data.users.find((user)=>{
+        let opponent = data.users.find((user)=> {
             return user.id !== this.state.currentUser.id;
         });
 
@@ -69,6 +72,7 @@ class Game extends React.Component {
         });
 
     }
+
 
     setupSubscription() {
         App.comments = App.cable.subscriptions.create({
@@ -95,7 +99,7 @@ class Game extends React.Component {
     }
 
     shouldStartGame() {
-        if(!this.state.gameStarted && this.state.game.status == "current"){
+        if (!this.state.gameStarted && this.state.game.status == "current") {
             this.setState({gameStarted: true, currentQuestionIndex: 0},
                 ()=> {
                     setInterval(function () {
@@ -107,10 +111,24 @@ class Game extends React.Component {
     }
 
     shouldTriggerNextQuestion() {
+        if (this.state.game.status !== 'current') return;
         let opponent_answer = this.state.opponent.answer;
-        if(opponent_answer && opponent_answer.question_id === this.props.questions[this.state.currentQuestionIndex].id && this.state.answered){
-            this.triggerNextQuestion();
+        if (opponent_answer && opponent_answer.question_id === this.props.questions[this.state.currentQuestionIndex].id && this.state.answered) {
+            if (this.state.currentQuestionIndex === this.props.questions.length - 1) {
+                this._finishGame();
+            } else {
+                this.triggerNextQuestion();
+            }
         }
+    }
+
+    _finishGame() {
+        var url = '/games/' + this.state.game.id + '/finish';
+
+        $.ajax({
+            method: "POST",
+            url: url,
+        });
     }
 
     triggerNextQuestion() {
@@ -124,7 +142,7 @@ class Game extends React.Component {
     }
 
     checkIfTimeFinished() {
-        if(this.state.seconds == 0 && this.state.game.status == "current") {
+        if (this.state.seconds == 0 && this.state.game.status == "current") {
             let authenticity_token = this.props.authenticity_token;
             let question_id = this.props.questions[this.state.currentQuestionIndex].id;
             let game_id = this.state.game.id;
