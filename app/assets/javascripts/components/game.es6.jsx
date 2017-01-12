@@ -9,7 +9,8 @@ class Game extends React.Component {
             currentQuestionIndex: null,
             answered: false,
             seconds: 10,
-            gameStarted: false
+            gameStarted: false,
+            selectedOption: null
         };
 
         this.updateGame = this.updateGame.bind(this);
@@ -18,6 +19,9 @@ class Game extends React.Component {
         this.triggerNextQuestion = this.triggerNextQuestion.bind(this);
         this.triggerAnswer = this.triggerAnswer.bind(this);
         this.checkIfTimeFinished = this.checkIfTimeFinished.bind(this);
+
+        this.handleOptionChange = this.handleOptionChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -44,6 +48,9 @@ class Game extends React.Component {
                           csrf={this.props.authenticity_token}
                           gameId={this.state.game.id}
                           triggerAnswer={this.triggerAnswer}
+                          handleOptionChange={this.handleOptionChange}
+                          handleSubmit={this.handleSubmit}
+                          selectedOption={this.state.selectedOption}
                 />
                 { this.state.game.status === 'aborted' &&
                 <AbortedModal/>
@@ -139,7 +146,7 @@ class Game extends React.Component {
     }
 
     triggerNextQuestion() {
-        this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, seconds: 10, answered: false});
+        this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, seconds: 10, answered: false, selectedOption: null});
     }
 
     triggerAnswer() {
@@ -170,6 +177,40 @@ class Game extends React.Component {
                         self.triggerAnswer();
                     });
                 });
+        }
+    }
+
+    handleOptionChange(event) {
+        this.setState({
+            selectedOption: event.target.value
+        })
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+        if(!this.state.answered){
+          let score = 0;
+          console.log(this.state.selectedOption);
+          console.log(this.props.questions[this.state.currentQuestionIndex].correct_answer);
+          if (this.state.selectedOption === this.props.questions[this.state.currentQuestionIndex].correct_answer) {
+              score += 10;
+          }
+          let csrf = this.props.authenticity_token;
+          let path = "http://localhost:3000/user_game/" + this.props.gameID;
+          let self = this;
+
+          $.ajax({
+              method: "PUT",
+              url: path,
+              data: {
+                  authenticity_token: csrf,
+                  question_id: this.props.questions[this.state.currentQuestionIndex].id,
+                  game_id: this.state.game.id,
+                  score: score
+              }
+          }).done(function () {
+              self.triggerAnswer();
+          });
         }
     }
 }
