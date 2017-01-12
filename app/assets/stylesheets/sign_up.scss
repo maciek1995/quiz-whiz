@@ -1,0 +1,49 @@
+.sign-up-title{
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.avatar {
+  padding: 5px;
+}
+
+.text-fields {
+  padding: 30px 60px;
+}
+
+.sign-up-btn-action {
+  text-align: center;
+}
+
+.sign-up-btn {
+  margin-top: 20px;
+  border-radius: 0;
+  width: 100px;
+}
+
+.avatars-album {
+  height: 300px !important;
+  overflow: scroll;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+.avatars-album::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+.avatars-album::-webkit-scrollbar
+{
+  width: 6px;
+  background-color: #F5F5F5;
+}
+
+.avatars-album::-webkit-scrollbar-thumb
+{
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #00CCCC;
+}
