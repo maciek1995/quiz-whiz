@@ -93,6 +93,13 @@ class Game extends React.Component {
                 received: function (data) {
                     this.updateGame(data);
                 },
+                disconnected: function () {
+                    this.perform('uninstall',
+                        {
+                            game_id: this.game_id,
+                        }
+                    )
+                },
                 updateGame: this.updateGame
             }
         );
