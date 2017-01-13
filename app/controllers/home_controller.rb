@@ -3,6 +3,10 @@ class HomeController < ApplicationController
 
   def index
     @game = Game::FindActiveForUser.new(current_user).call
-    redirect_to @game if @game
+    if @game
+      redirect_to @game
+    else
+      @available_users = User::AvailableQuery.new.call
+    end
   end
 end
