@@ -9,6 +9,7 @@ class Game::PlayNow
     end
 
     game = Game.find_by(status: :pending)
+    current_user.update(games_played: (current_user.games_played + 1))
     if game
       UserGame.create(user: current_user, game: game)
       game.status = :current

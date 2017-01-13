@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170113140838) do
+ActiveRecord::Schema.define(version: 20170113200943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,6 +65,9 @@ ActiveRecord::Schema.define(version: 20170113140838) do
     t.datetime "updated_at",                             null: false
     t.string   "avatar_path"
     t.boolean  "is_available",           default: false
+    t.integer  "games_played",           default: 0
+    t.integer  "games_won",              default: 0
+    t.integer  "games_drawn",            default: 0
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
