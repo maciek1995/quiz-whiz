@@ -18,7 +18,7 @@ class GamesController < ApplicationController
         GameQuestion.create(game: @game, question: question)
       end
 
-      ActionCable.server.broadcast("user_invitation_#{opponent.id}", "gowno")
+      ActionCable.server.broadcast("user_invitation_#{opponent.id}", opponent)
 
       redirect_to @game
     end
