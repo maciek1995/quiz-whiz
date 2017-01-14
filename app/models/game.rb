@@ -5,5 +5,5 @@ class Game < ApplicationRecord
   has_many :game_questions
   has_many :questions, through: :game_questions
 
-  enum status: [:pending, :finished, :aborted, :ready, :current]
+  enum status: [:pending, :finished, :pending_invitation, :aborted, :ready, :current]
 end

@@ -9,9 +9,9 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css?family=Shadows+Into+Light" rel="stylesheet">
   </head>
-  
+
   <body>
-    <%= render 'layouts/navbar' %>
+    <%= react_component('NavigationBar', {currentUser: current_user}) %>
 
     <main class="container content">
       <p class="notice"><%= notice %></p>

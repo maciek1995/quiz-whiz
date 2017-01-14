@@ -17,6 +17,8 @@ class Game::PlayNow
     else
       game = Game.create(name: "Quick Game", status: :pending)
       UserGame.create(user: current_user, game: game)
+
+      # TODO: random questions
       Question.all.order(:created_at).each do |question|
         GameQuestion.create(game: game, question: question)
       end
