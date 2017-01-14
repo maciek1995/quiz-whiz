@@ -5,7 +5,7 @@ class ProfilesBoard extends React.Component {
         return (
             <section className="users-board">
                 <div className="row">
-                    <Profile user={this.props.me} separatorClass="users-board__profile--left" scoreClass={leftScoreClass} />
+                    <Profile user={this.props.currentUser} separatorClass="users-board__profile--left" scoreClass={leftScoreClass} />
                     <Profile user={this.props.opponent} scoreClass={rightScoreClass} />
                 </div>
             </section>

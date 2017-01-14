@@ -1,0 +1,21 @@
+.qw-modal {
+  position: fixed;
+  z-index: 999;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  &__header, &__footer  {
+    text-align: center;
+  }
+  &__header {
+    font-size: 30px;
+    font-family: 'Orbitron', sans-serif;
+  }
+  &__image {
+    height: 210px;
+  }
+  &__body {
+    text-align: center;
+  }
+}
+@import url('https://fonts.googleapis.com/css?family=Orbitron');

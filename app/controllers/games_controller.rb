@@ -3,23 +3,25 @@ class GamesController < ApplicationController
   before_action :set_game, only: [:finish, :abort, :show]
 
   def play_now
-    @game = current_user.games.find_by(status: [:pending, :ready, :current])
-    @game ||= Game::PlayNow.new(current_user).call
+    @game = Game::PlayNow.new(current_user).call
 
     redirect_to @game
   end
 
   def finish
     authorize @game
-    @game.update(status: :finished)
+    Game::Finish.new(params[:id], current_user).call
 
-    redirect_to root_path
+    if @game.update(status: :finished)
+      GameBroadcastJob.perform_later(params[:id], nil, nil, current_user)
+    end
   end
 
   def abort
     authorize @game
-    @game.update(status: :aborted)
 
+    @game.update(status: :aborted)
+    GameBroadcastJob.set(wait: 3.seconds).perform_later(params[:id].to_i, nil, nil, current_user)
     redirect_to root_path
   end
 

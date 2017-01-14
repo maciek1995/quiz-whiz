@@ -4,14 +4,21 @@ class GamePlay extends React.Component {
             <section className="row">
                 <p>{this.props.sec}</p>
                 <div className="col-xs-6" style={{paddingRight: 0, paddingLeft: 0}}>
-                    <QuestionsPanel />
+                    <QuestionsPanel question={this.props.question}
+                                    csrf={this.props.csrf}
+                                    gameID={this.props.gameId}
+                                    opponent={this.props.opponent}
+                                    triggerAnswer={this.props.triggerAnswer}
+                                    handleOptionChange={this.props.handleOptionChange}
+                                    handleSubmit={this.props.handleSubmit}
+                                    selectedOption={this.props.selectedOption}
+                    />
                 </div>
 
                 <div className="col-xs-6" style={{paddingRight: 0, paddingLeft: 0}}>
-                    <OpponentsProgress opponent={this.props.currentUser}/>
+                    <OpponentsProgress opponent={this.props.opponent}/>
                 </div>
             </section>
         );
     }
 }
-

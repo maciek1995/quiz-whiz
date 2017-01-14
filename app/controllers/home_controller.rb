@@ -2,7 +2,11 @@ class HomeController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @game = current_user.games.find_by(status: [:pending, :ready, :current])
-    redirect_to @game if @game
+    @game = Game::FindActiveForUser.new(current_user).call
+    if @game
+      redirect_to @game
+    else
+      @available_users = User::AvailableQuery.new.call
+    end
   end
 end

@@ -15,4 +15,6 @@ Rails.application.routes.draw do
       post :play_now
     end
   end
+
+  resources :user_game, only: [:update]
 end
