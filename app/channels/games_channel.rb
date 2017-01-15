@@ -4,8 +4,8 @@ class GamesChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    Game.find(params[:game_id]).update(status: :aborted)
-    GameBroadcastJob.perform_later(params[:game_id], nil, nil, current_user)
+    game = Game.find(params[:game_id])
+    Game::Abort.new(game, current_user).call
   end
 
   def appear(data)
