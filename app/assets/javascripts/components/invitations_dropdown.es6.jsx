@@ -1,23 +1,28 @@
 class InvitationsDropdown extends React.Component {
 
-  constructor(props) {
-    super(props);
-  }
+    constructor(props) {
+        super(props);
+    }
 
-  _renderInvitations(invitations) {
-    return invitations.map((invitation)=>{
-      return <li>Play with {invitation.username}</li>
-    });
-  }
+    _renderInvitations(invitations) {
+        return invitations.map((invitation, index)=>{
+            return (
+                <div key={index}>
+                    <p>{invitation.user.username}</p>
+                    <a href={`/games/${invitation.game_id}/accept_invitation`} data-method="post" className="btn btn-default">Accept Invitation</a>
+                </div>
+            )
+        });
+    }
 
-  render () {
-    let {invitatons} = this.props;
-    let invitationsList = this._renderInvitations(this.props.invitations);
+    render () {
+        let {invitatons} = this.props;
+        let invitationsList = this._renderInvitations(this.props.invitations);
 
-    return (
-      <ul>
-        {invitationsList}
-      </ul>
-    );
-  }
+        return (
+            <ul>
+                {invitationsList}
+            </ul>
+        );
+    }
 }

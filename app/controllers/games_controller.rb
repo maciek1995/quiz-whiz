@@ -1,6 +1,6 @@
 class GamesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_game, only: [:finish, :abort, :show]
+  before_action :set_game, only: [:finish, :abort, :show, :accept_invitation]
 
   def play_now
     @game = Game::PlayNow.new(current_user).call
@@ -17,7 +17,7 @@ class GamesController < ApplicationController
   def accept_invitation
     @game = Game::AcceptInvitation.new(@game).call
 
-    redirect @game
+    redirect_to @game
   end
 
   def finish
