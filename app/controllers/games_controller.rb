@@ -26,11 +26,7 @@ class GamesController < ApplicationController
 
   def finish
     authorize @game
-    Game::Finish.new(params[:id], current_user).call
-
-    if @game.update(status: :finished)
-      GameBroadcastJob.perform_later(params[:id], nil, nil, current_user)
-    end
+    Game::Finish.new(@game, current_user).call
   end
 
   def abort
