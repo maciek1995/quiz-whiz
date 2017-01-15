@@ -4,7 +4,7 @@ class UserInvitationChannel < ApplicationCable::Channel
   end
 
   def unsubscribed
-    games = current_user.games.where(status: :intitation_pending)
+    games = current_user.games.where(status: :pending_invitation)
     games.update_all(status: :aborted)
     games.each do |game|
       GameBroadcastJob.perform_later(game.id, nil, nil, current_user)

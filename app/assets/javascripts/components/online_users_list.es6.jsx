@@ -41,7 +41,7 @@ class OnlineUsersList extends React.Component {
         });
         if(data.id == this.props.currentUser.id){
             return;
-        }else if((-1) !== userIndex){
+        }else if(!data.is_available){
             this.setState({
                 available_users: this.state.available_users.filter((_, i) => i !== userIndex)
             })
