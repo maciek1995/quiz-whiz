@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       post :finish
       post :abort
       post :accept_invitation
+      post :decline_invitation
     end
 
     collection do
