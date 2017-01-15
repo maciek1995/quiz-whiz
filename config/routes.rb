@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     collection do
       post :play_now
       post :invite
+      get :get_invitations
     end
   end
 

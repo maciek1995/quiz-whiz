@@ -26,6 +26,11 @@ class GamesController < ApplicationController
     Game::DeclineInvitation.new(@game, current_user).call
   end
 
+  def get_invitations
+    invitations = Game::GetInvitations.new(current_user).call
+    render json: invitations
+  end
+
   def finish
     authorize @game
     Game::Finish.new(@game, current_user).call
