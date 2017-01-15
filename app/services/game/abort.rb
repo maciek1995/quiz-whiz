@@ -11,5 +11,5 @@ class Game::Abort
 
   private
 
-  attr_reader :game
+  attr_reader :game, :current_user
 end
