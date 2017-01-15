@@ -14,6 +14,12 @@ class GamesController < ApplicationController
     redirect_to @game
   end
 
+  def accept_invitation
+    @game = Game::AcceptInvitation.new(@game).call
+
+    redirect @game
+  end
+
   def finish
     authorize @game
     Game::Finish.new(params[:id], current_user).call
