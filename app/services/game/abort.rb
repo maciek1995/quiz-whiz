@@ -1,4 +1,4 @@
-class Game::DeclineInvitation
+class Game::Abort
   def initialize(game, current_user)
     @game = game
     @current_user = current_user
@@ -6,10 +6,10 @@ class Game::DeclineInvitation
 
   def call
     game.update(status: :aborted)
-    GameBroadcastJob.perform_later(game.id, nil, nil, current_user)
+    GameBroadcastJob.set(wait: 2.seconds).perform_later(game.id, nil, nil, current_user)
   end
 
   private
 
-  attr_reader :game, :current_user
+  attr_reader :game
 end

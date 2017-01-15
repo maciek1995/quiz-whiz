@@ -15,13 +15,15 @@ class GamesController < ApplicationController
   end
 
   def accept_invitation
+    authorize @game
     @game = Game::AcceptInvitation.new(@game).call
 
     redirect_to @game
   end
 
   def decline_invitation
-    Game::DeclineInvitation.new(current_user, @game).call
+    authorize @game
+    Game::DeclineInvitation.new(@game, current_user).call
   end
 
   def finish
@@ -31,9 +33,8 @@ class GamesController < ApplicationController
 
   def abort
     authorize @game
+    Game::Abort.new(@game, current_user).call
 
-    @game.update(status: :aborted)
-    GameBroadcastJob.set(wait: 3.seconds).perform_later(params[:id].to_i, nil, nil, current_user)
     redirect_to root_path
   end
 
