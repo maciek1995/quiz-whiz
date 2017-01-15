@@ -9,19 +9,9 @@ class GamesController < ApplicationController
   end
 
   def invite
-    if opponent = User.find(params[:user_id])
-      @game = Game.create(status: :pending_invitation, name: "Custom Game")
-      current_user.user_games.create(game: @game)
-      opponent.user_games.create(game: @game)
-      # TODO: random questions
-      Question.all.order(:created_at).each do |question|
-        GameQuestion.create(game: @game, question: question)
-      end
+    @game = Game::InviteUser.new(current_user, params[:user_id]).call
 
-      ActionCable.server.broadcast("user_invitation_#{opponent.id}", opponent)
-
-      redirect_to @game
-    end
+    redirect_to @game
   end
 
   def finish
