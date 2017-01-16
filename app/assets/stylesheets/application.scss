@@ -5,7 +5,10 @@
 @import "font-awesome";
 @import 'games';
 @import 'notify-dropdown';
+@import "home";
+
 
 body {
+  background: url('bg-texture');
   padding-top: 70px;
 }

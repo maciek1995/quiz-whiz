@@ -1,15 +1,13 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
 <div class="container">
   <div class="row">
     <div class="col-md-6">
       <div class="profile">
-        <img src=<%= current_user.avatar_path %>>
-        <p><%= current_user.username %></p>
-        <p>played games: <%= current_user.games_played %></p>
-        <p>games won: <%= current_user.games_won %></p>
-        <p>games drawn: <%= current_user.games_drawn %></p>
-        <%= button_to "Quick Game!", play_now_games_path, method: :post %>
+        <img class="profile__avatar" src=<%= current_user.avatar_path %>>
+        <p class="profile__username"><%= current_user.username %></p>
+        <p class="profile__game-statistics">PLAYED GAMES: <%= current_user.games_played %></p>
+        <p class="profile__game-statistics">GAMES WON: <%= current_user.games_won %></p>
+        <p class="profile__game-statistics">GAMES DRAWN: <%= current_user.games_drawn %></p>
+        <%= button_to "Quick Game!", play_now_games_path, method: :post, class: "btn profile__quick-game" %>
       </div>
     </div>
     <div class="col-md-6">
