@@ -6,7 +6,7 @@ class Game::GetInvitations
   def call
     current_user.games.where(status: :pending_invitation).where.not(caller: current_user).map do |game|
       p game
-      { game_id: game.id, user: (game.users - [current_user]).first, is_caller: (current_user.id == game.caller_id) }
+      { game_id: game.id, user: (game.users - [current_user]).first }
     end
   end
 

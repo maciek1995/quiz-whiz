@@ -18,7 +18,7 @@ class Game::PlayNow
       game = Game.create(name: "Quick Game", status: :pending)
       UserGame.create(user: current_user, game: game)
 
-      Question.order("RANDOM()").limit(10).each do |question|
+      Question.order("RANDOM()").limit(5).each do |question|
         GameQuestion.create(game: game, question: question)
       end
     end

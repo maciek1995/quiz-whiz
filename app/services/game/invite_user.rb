@@ -11,7 +11,7 @@ class Game::InviteUser
     game.user_games.new(user: opponent)
     game.save!
 
-    Question.order("RANDOM()").limit(10).each do |question|
+    Question.order("RANDOM()").limit(5).each do |question|
       GameQuestion.create(game: game, question: question)
     end
 
