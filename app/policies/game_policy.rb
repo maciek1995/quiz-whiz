@@ -10,4 +10,12 @@ class GamePolicy < ApplicationPolicy
   def finish?
     game_participant?
   end
+
+  def decline_invitation?
+    game_participant?
+  end
+
+  def accept_invitation?
+    game_participant?
+  end
 end

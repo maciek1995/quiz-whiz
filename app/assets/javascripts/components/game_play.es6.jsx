@@ -9,6 +9,10 @@ class GamePlay extends React.Component {
                                     gameID={this.props.gameId}
                                     opponent={this.props.opponent}
                                     triggerAnswer={this.props.triggerAnswer}
+                                    handleOptionChange={this.props.handleOptionChange}
+                                    handleSubmit={this.props.handleSubmit}
+                                    selectedOption={this.props.selectedOption}
+                                    gameStarted={this.props.gameStarted}
                     />
                 </div>
 
@@ -19,4 +23,3 @@ class GamePlay extends React.Component {
         );
     }
 }
-
