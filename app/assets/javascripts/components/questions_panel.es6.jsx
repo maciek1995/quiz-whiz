@@ -1,7 +1,7 @@
 class QuestionsPanel extends React.Component {
 
-    _renderQuestion(question) {
-        if (question) {
+    _renderQuestion(question, gameStarted) {
+        if (question && gameStarted) {
             return (
                 <fieldset>
                     <p>{question.text}</p>
@@ -31,10 +31,10 @@ class QuestionsPanel extends React.Component {
 
 
     render() {
-        let {question} = this.props;
+        let {question, gameStarted} = this.props;
         return (
             <article>
-                {this._renderQuestion(question)}
+                {this._renderQuestion(question, gameStarted)}
             </article>
         );
     }

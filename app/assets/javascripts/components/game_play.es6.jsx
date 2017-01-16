@@ -12,6 +12,7 @@ class GamePlay extends React.Component {
                                     handleOptionChange={this.props.handleOptionChange}
                                     handleSubmit={this.props.handleSubmit}
                                     selectedOption={this.props.selectedOption}
+                                    gameStarted={this.props.gameStarted}
                     />
                 </div>
 
