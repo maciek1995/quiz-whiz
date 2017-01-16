@@ -22,10 +22,10 @@ class OnlineUsersList extends React.Component {
     }
 
     renderAvailableUsers() {
-        return this.state.available_users.map((user, _) => {
+        return this.state.available_users.map((user, index) => {
             if(user.id !== this.props.currentUser.id){
                 return(
-                    <div>
+                    <div key={"available_users" + index}>
                         <p>{user.username}</p>
                         <p>{user.email}</p>
                         <a href={`/games/invite?user_id=${user.id}`} data-method="post" className="btn btn-default">Invite</a>
