@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170116101154) do
+ActiveRecord::Schema.define(version: 20170116123322) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,10 +26,11 @@ ActiveRecord::Schema.define(version: 20170116101154) do
 
   create_table "games", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                         null: false
+    t.datetime "updated_at",                         null: false
     t.integer  "status"
     t.integer  "caller_id"
+    t.integer  "current_question_index", default: 0
     t.index ["caller_id"], name: "index_games_on_caller_id", using: :btree
   end
 
@@ -44,9 +45,10 @@ ActiveRecord::Schema.define(version: 20170116101154) do
   create_table "user_games", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "game_id"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "score",      default: 0
+    t.datetime "created_at",                null: false
+    t.datetime "updated_at",                null: false
+    t.integer  "score",         default: 0
+    t.integer  "last_answered"
     t.index ["game_id"], name: "index_user_games_on_game_id", using: :btree
     t.index ["user_id"], name: "index_user_games_on_user_id", using: :btree
   end

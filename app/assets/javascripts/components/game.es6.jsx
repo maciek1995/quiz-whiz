@@ -43,10 +43,11 @@ class Game extends React.Component {
                 <ProfilesBoard currentUser={this.state.currentUser} opponent={this.state.opponent}/>
                 <GamePlay currentUser={this.state.currentUser}
                           opponent={this.state.opponent}
-                          question={this.props.questions[this.state.currentQuestionIndex]}
+                          question={this.props.questions[this.state.game.current_question_index]}
                           sec={this.state.seconds}
                           csrf={this.props.authenticity_token}
                           gameId={this.state.game.id}
+                          gameStarted={this.state.gameStarted}
                           triggerAnswer={this.triggerAnswer}
                           handleOptionChange={this.handleOptionChange}
                           handleSubmit={this.handleSubmit}
@@ -63,9 +64,10 @@ class Game extends React.Component {
     }
 
     updateGame(data) {
+      console.log(data);
         data = JSON.parse(data);
-
-        let newGame = Object.assign({}, this.state.game, {status: data.game_status});
+        this.gameFinished(data.game_status)
+        let newGame = Object.assign({}, this.state.game, {status: data.game_status, current_question_index: data.current_question_index});
         let opponent = data.users.find((user)=> {
             return user.id !== this.state.currentUser.id;
         });
@@ -80,6 +82,12 @@ class Game extends React.Component {
 
     }
 
+    gameFinished(newStatus){
+      if(this.state.game.status == 'current' && newStatus != 'current'){
+        console.log('finished');
+        clearInterval(this.interval)
+      }
+    }
 
     setupSubscription() {
         App.comments = App.cable.subscriptions.create({
@@ -114,7 +122,7 @@ class Game extends React.Component {
 
     shouldStartGame() {
         if (!this.state.gameStarted && this.state.game.status == "current") {
-            this.setState({gameStarted: true, currentQuestionIndex: 0},
+            this.setState({gameStarted: true},
                 ()=> {
                     setInterval(function () {
                         this.setState({seconds: this.state.seconds - 1})
@@ -127,8 +135,8 @@ class Game extends React.Component {
     shouldTriggerNextQuestion() {
         if (this.state.game.status !== 'current') return;
         let opponent_answer = this.state.opponent.answer;
-        if (opponent_answer && opponent_answer.question_id === this.props.questions[this.state.currentQuestionIndex].id && this.state.answered) {
-            if (this.state.currentQuestionIndex === this.props.questions.length - 1) {
+        if (opponent_answer && opponent_answer.question_id === this.props.questions[this.state.game.current_question_index].id && this.state.answered) {
+            if (this.state.game.current_question_index === this.props.questions.length - 1) {
                 this._finishGame();
             } else {
                 this.triggerNextQuestion();
@@ -158,25 +166,22 @@ class Game extends React.Component {
     checkIfTimeFinished() {
         if (this.state.seconds == 0 && this.state.game.status == "current") {
             let authenticity_token = this.props.authenticity_token;
-            let question_id = this.props.questions[this.state.currentQuestionIndex].id;
+            let question_index = this.state.game.currentQuestionIndex;
             let game_id = this.state.game.id;
             let self = this;
             let path = "http://localhost:3000/user_game/" + game_id;
-            this.setState({seconds: 10},
-                () => {
-                    $.ajax({
-                        method: "PUT",
-                        url: path,
-                        data: {
-                            authenticity_token: authenticity_token,
-                            question_id: question_id,
-                            game_id: game_id,
-                            score: 0
-                        }
-                    }).done(function () {
-                        self.triggerAnswer();
-                    });
-                });
+            $.ajax({
+                method: "PUT",
+                url: path,
+                data: {
+                    authenticity_token: authenticity_token,
+                    question_index: question_index,
+                    game_id: game_id,
+                    score: 0
+                }
+            }).done(function () {
+                self.triggerAnswer();
+            });
         }
     }
 
@@ -191,8 +196,8 @@ class Game extends React.Component {
         if(!this.state.answered){
           let score = 0;
           console.log(this.state.selectedOption);
-          console.log(this.props.questions[this.state.currentQuestionIndex].correct_answer);
-          if (this.state.selectedOption === this.props.questions[this.state.currentQuestionIndex].correct_answer) {
+          console.log(this.props.questions[this.state.game.current_question_index].correct_answer);
+          if (this.state.selectedOption === this.props.questions[this.state.game.current_question_index].correct_answer) {
               score += 10;
           }
           let csrf = this.props.authenticity_token;
@@ -204,7 +209,7 @@ class Game extends React.Component {
               url: path,
               data: {
                   authenticity_token: csrf,
-                  question_id: this.props.questions[this.state.currentQuestionIndex].id,
+                  question_index: this.state.game.current_question_index,
                   game_id: this.state.game.id,
                   score: score
               }

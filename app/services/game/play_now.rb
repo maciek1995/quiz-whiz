@@ -13,6 +13,7 @@ class Game::PlayNow
     if game
       UserGame.create(user: current_user, game: game)
       game.status = :current
+      game.current_question_index = 0
       game.save
     else
       game = Game.create(name: "Quick Game", status: :pending)

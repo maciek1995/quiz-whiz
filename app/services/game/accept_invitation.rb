@@ -4,7 +4,7 @@ class Game::AcceptInvitation
   end
 
   def call
-    game.update(status: :current)
+    game.update(status: :current, current_question_index: 0)
     return game
   end
 
