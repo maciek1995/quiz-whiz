@@ -5,8 +5,12 @@
 @import "font-awesome";
 @import 'games';
 @import "sign_up";
+@import 'login';
 @import 'notify-dropdown';
 
 body {
-  padding-top: 70px;
+  padding-top: 81px;
+}
+.content{
+  padding-top: 20px;
 }
