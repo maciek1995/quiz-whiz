@@ -25,9 +25,10 @@ class OnlineUsersList extends React.Component {
         return this.state.available_users.map((user, index) => {
             if(user.id !== this.props.currentUser.id){
                 return(
-                    <div key={user.id}>
+                    <div key={"available_users" + index}>
                         <p>{user.username}</p>
                         <p>{user.email}</p>
+                        <a href={`/games/invite?user_id=${user.id}`} data-method="post" className="btn btn-default">Invite</a>
                     </div>
                 )
             }
@@ -35,12 +36,12 @@ class OnlineUsersList extends React.Component {
     }
 
     updateUsersList(data){
-        let userIndex = this.state.available_users.findIndex((user) => {
-            return user.id === data.id
-        });
         if(data.id == this.props.currentUser.id){
             return;
-        }else if((-1) !== userIndex){
+        }else if(!data.is_available){
+            let userIndex = this.state.available_users.findIndex((user) => {
+                return user.id === data.id
+            });
             this.setState({
                 available_users: this.state.available_users.filter((_, i) => i !== userIndex)
             })
@@ -71,4 +72,3 @@ class OnlineUsersList extends React.Component {
         );
     }
 }
-

@@ -9,10 +9,14 @@ Rails.application.routes.draw do
     member do
       post :finish
       post :abort
+      post :accept_invitation
+      post :decline_invitation
     end
 
     collection do
       post :play_now
+      post :invite
+      get :get_invitations
     end
   end
 
