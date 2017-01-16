@@ -6,7 +6,7 @@ class UserGameController < ApplicationController
     @user_game.score += params[:score].to_i
     @user_game.last_answered = params[:question_index]
     game = @user_game.game
-    if game.user_games.pluck(:last_answered).all? {|last| last == game.current_question_index}
+    if game.user_games.where.not(id: @user_game.id).first.last_answered == @user_game.last_answered
       if game.current_question_index == game.questions.length - 1
         game.update(status: :finished)
       else

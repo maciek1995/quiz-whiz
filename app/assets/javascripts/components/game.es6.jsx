@@ -6,7 +6,7 @@ class Game extends React.Component {
             game: props.game,
             currentUser: props.currentUser,
             opponent: null,
-            currentQuestionIndex: null,
+            // currentQuestionIndex: null,
             answered: false,
             seconds: 10,
             gameStarted: false,
@@ -22,6 +22,7 @@ class Game extends React.Component {
 
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.gameFinished = this.gameFinished.bind(this);
     }
 
     componentDidMount() {
@@ -29,7 +30,6 @@ class Game extends React.Component {
     }
 
     componentDidUpdate() {
-        this.checkIfTimeFinished();
     }
 
     render() {
@@ -66,6 +66,7 @@ class Game extends React.Component {
     updateGame(data) {
       console.log(data);
         data = JSON.parse(data);
+        let oldIndex = this.state.game.current_question_index
         this.gameFinished(data.game_status)
         let newGame = Object.assign({}, this.state.game, {status: data.game_status, current_question_index: data.current_question_index});
         let opponent = data.users.find((user)=> {
@@ -77,7 +78,7 @@ class Game extends React.Component {
             opponent: opponent
         }, function () {
             this.shouldStartGame();
-            this.shouldTriggerNextQuestion();
+            this.shouldTriggerNextQuestion(oldIndex);
         });
 
     }
@@ -124,24 +125,29 @@ class Game extends React.Component {
         if (!this.state.gameStarted && this.state.game.status == "current") {
             this.setState({gameStarted: true},
                 ()=> {
-                    setInterval(function () {
-                        this.setState({seconds: this.state.seconds - 1})
+                    this.interval = setInterval(function () {
+                        this.setState({seconds: this.state.seconds - 1}, () => this.checkIfTimeFinished())
+
                     }.bind(this), 1000);
                 }
             )
         }
     }
 
-    shouldTriggerNextQuestion() {
-        if (this.state.game.status !== 'current') return;
-        let opponent_answer = this.state.opponent.answer;
-        if (opponent_answer && opponent_answer.question_id === this.props.questions[this.state.game.current_question_index].id && this.state.answered) {
-            if (this.state.game.current_question_index === this.props.questions.length - 1) {
-                this._finishGame();
-            } else {
-                this.triggerNextQuestion();
-            }
-        }
+    shouldTriggerNextQuestion(oldIndex) {
+      if (this.state.game.status !== 'current') return;
+      if (this.state.game.current_question_index != oldIndex){
+        this.triggerNextQuestion();
+      }
+
+        // let opponent_answer = this.state.opponent.answer;
+        // if (opponent_answer && opponent_answer.question_id === this.props.questions[this.state.game.current_question_index].id && this.state.answered) {
+        //     if (this.state.game.current_question_index === this.props.questions.length - 1) {
+        //         this._finishGame();
+        //     } else {
+        //         this.triggerNextQuestion();
+        //     }
+        // }
     }
 
     _finishGame() {
@@ -153,37 +159,46 @@ class Game extends React.Component {
         });
     }
 
-    triggerNextQuestion() {
-        this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, seconds: 10, answered: false, selectedOption: null});
-    }
-
     triggerAnswer() {
         this.setState({
             answered: true
-        }, this.shouldTriggerNextQuestion);
+        });
+    }
+
+    triggerNextQuestion() {
+        this.setState({seconds: 10, answered: false, selectedOption: null});
+        // this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, seconds: 10, answered: false, selectedOption: null});
     }
 
     checkIfTimeFinished() {
         if (this.state.seconds == 0 && this.state.game.status == "current") {
             let authenticity_token = this.props.authenticity_token;
-            let question_index = this.state.game.currentQuestionIndex;
+            let question_index = this.state.game.current_question_index;
             let game_id = this.state.game.id;
             let self = this;
             let path = "http://localhost:3000/user_game/" + game_id;
+
+            let score = 0;
+            console.log(this.state.selectedOption);
+            console.log(this.props.questions[this.state.game.current_question_index].correct_answer);
+            if (!this.state.answered && this.state.selectedOption === this.props.questions[this.state.game.current_question_index].correct_answer) {
+                score += 10;
+            }
             $.ajax({
-                method: "PUT",
-                url: path,
-                data: {
-                    authenticity_token: authenticity_token,
-                    question_index: question_index,
-                    game_id: game_id,
-                    score: 0
-                }
+              method: "PUT",
+              url: path,
+              data: {
+                authenticity_token: authenticity_token,
+                question_index: question_index,
+                game_id: game_id,
+                score: score
+              }
             }).done(function () {
-                self.triggerAnswer();
-            });
+                self.triggerAnswer()
+            })
         }
     }
+
 
     handleOptionChange(event) {
         this.setState({
@@ -193,7 +208,7 @@ class Game extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        if(!this.state.answered){
+        if(!this.state.answered && this.state.seconds > 0){
           let score = 0;
           console.log(this.state.selectedOption);
           console.log(this.props.questions[this.state.game.current_question_index].correct_answer);
@@ -214,7 +229,7 @@ class Game extends React.Component {
                   score: score
               }
           }).done(function () {
-              self.triggerAnswer();
+              self.triggerAnswer()
           });
         }
     }
