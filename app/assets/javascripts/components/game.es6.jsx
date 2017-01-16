@@ -23,6 +23,7 @@ class Game extends React.Component {
         this.handleOptionChange = this.handleOptionChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.gameFinished = this.gameFinished.bind(this);
+        this.startInterval = this.startInterval.bind(this);
     }
 
     componentDidMount() {
@@ -123,15 +124,15 @@ class Game extends React.Component {
 
     shouldStartGame() {
         if (!this.state.gameStarted && this.state.game.status == "current") {
-            this.setState({gameStarted: true},
-                ()=> {
-                    this.interval = setInterval(function () {
-                        this.setState({seconds: this.state.seconds - 1}, () => this.checkIfTimeFinished())
-
-                    }.bind(this), 1000);
-                }
+            this.setState({gameStarted: true}, this.startInterval
             )
         }
+    }
+
+    startInterval(){
+      this.interval = setInterval(function () {
+          this.setState({seconds: this.state.seconds - 1}, () => this.checkIfTimeFinished())
+      }.bind(this), 1000);
     }
 
     shouldTriggerNextQuestion(oldIndex) {
@@ -166,12 +167,14 @@ class Game extends React.Component {
     }
 
     triggerNextQuestion() {
-        this.setState({seconds: 10, answered: false, selectedOption: null});
+      if(this.interval){clearInterval(this.interval)}
+      this.setState({seconds: 10, answered: false, selectedOption: null});
+      this.startInterval()
         // this.setState({currentQuestionIndex: this.state.currentQuestionIndex + 1, seconds: 10, answered: false, selectedOption: null});
     }
 
     checkIfTimeFinished() {
-        if (this.state.seconds == 0 && this.state.game.status == "current") {
+        if (this.state.seconds <= 0 && this.state.game.status == "current") {
             let authenticity_token = this.props.authenticity_token;
             let question_index = this.state.game.current_question_index;
             let game_id = this.state.game.id;
@@ -179,8 +182,6 @@ class Game extends React.Component {
             let path = "http://localhost:3000/user_game/" + game_id;
 
             let score = 0;
-            console.log(this.state.selectedOption);
-            console.log(this.props.questions[this.state.game.current_question_index].correct_answer);
             if (!this.state.answered && this.state.selectedOption === this.props.questions[this.state.game.current_question_index].correct_answer) {
                 score += 10;
             }
