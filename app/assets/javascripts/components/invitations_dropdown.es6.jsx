@@ -21,9 +21,9 @@ class InvitationsDropdown extends React.Component {
         let invitationsList = this._renderInvitations(this.props.invitations);
 
         return (
-            <ul>
-                {invitationsList}
-            </ul>
+          <ul className="notification-dropdown">
+            {invitationsList}
+          </ul>
         );
-    }
+      }
 }

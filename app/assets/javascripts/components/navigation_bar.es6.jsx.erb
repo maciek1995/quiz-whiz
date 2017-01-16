@@ -27,7 +27,11 @@ class NavigationBar extends React.Component {
 
   updateInvitations(data) {
     console.log(data);
-    this.setState({invitationsList: this.state.invitationsList.concat([data])});
+    if(data.deleted){
+      this.setState({invitationsList: this.state.invitationsList.filter( invitation => {invitation.game_id != data.game_id})});
+    }else{
+      this.setState({invitationsList: this.state.invitationsList.concat([data])});
+    }
   }
 
   _toggleDropDown() {

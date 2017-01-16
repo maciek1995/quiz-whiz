@@ -6,12 +6,12 @@ class Game::InviteUser
 
   def call
     opponent = User.find(opponent_id)
-    game = Game.new(status: :pending_invitation, name: "Custom Game")
+    game = Game.new(status: :pending_invitation, name: "Custom Game", caller: current_user)
     game.user_games.new(user: current_user)
     game.user_games.new(user: opponent)
     game.save!
 
-    Question.order("RANDOM()").limit(3).each do |question|
+    Question.order("RANDOM()").limit(10).each do |question|
       GameQuestion.create(game: game, question: question)
     end
 

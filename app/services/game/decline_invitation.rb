@@ -7,6 +7,7 @@ class Game::DeclineInvitation
   def call
     game.update(status: :aborted)
     GameBroadcastJob.perform_later(game.id, nil, nil, current_user)
+    ActionCable.server.broadcast("user_invitation_#{current_user.id}", {game_id: game.id, deleted: true})
   end
 
   private
