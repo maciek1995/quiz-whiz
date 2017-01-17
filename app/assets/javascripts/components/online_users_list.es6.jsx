@@ -5,7 +5,6 @@ class OnlineUsersList extends React.Component {
         this.state = {
             available_users: props.available_users
         };
-
         this.setupSubscription = this.setupSubscription.bind(this);
         this.updateUsersList = this.updateUsersList.bind(this);
         this.renderAvailableUsers = this.renderAvailableUsers.bind(this);
@@ -16,20 +15,38 @@ class OnlineUsersList extends React.Component {
     }
 
     render () {
-        return <div>
-            {this.renderAvailableUsers()}
-        </div>;
+        return (
+            <div className="available-users-container">
+                <header className="available-users-container__header">Online Users</header>
+                <ul className="available-users-list">
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                    {this.renderAvailableUsers()}
+                </ul>
+            </div>
+        );
     }
 
     renderAvailableUsers() {
         return this.state.available_users.map((user, index) => {
             if(user.id !== this.props.currentUser.id){
                 return(
-                    <div key={"available_users" + index}>
-                        <p>{user.username}</p>
-                        <p>{user.email}</p>
-                        <a href={`/games/invite?user_id=${user.id}`} data-method="post" className="btn btn-default">Invite</a>
-                    </div>
+                    <li key={"available_user-" + index} className="available-users-list__item">
+                        <img src={user.avatar_path} alt="user avatar" className="available-users-list__item__avatar"/>
+                        <p className="available-users-list__item__username">{user.username}</p>
+                        <a href={`/games/invite?user_id=${user.id}`}
+                           data-method="post"
+                           className="btn available-users-list__item__invite-btn">
+                            Invite
+                        </a>
+                    </li>
                 )
             }
         }).filter(n => n);

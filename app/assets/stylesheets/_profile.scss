@@ -1,0 +1,40 @@
+.profile {
+  text-align: center;
+  margin: auto;
+  width: 225px;
+
+  p {
+    color: $white-bone;
+    margin-top: 15px;
+  }
+
+  &__username {
+    font-family: 'Shadows Into Light', cursive;
+    font-size: 1.6em;
+    font-weight: bold;
+    padding: 10px;
+  }
+
+  &__game-statistics {
+    text-align: left;
+    font-weight: bold;
+  }
+
+  &__avatar {
+    border-radius: 50%;
+  }
+
+  &__quick-game {
+    margin-top: 25px;
+    color: white;
+    font-weight: bolder;
+    width: 100%;
+    background: $salmon;
+    border-radius: 0;
+    opacity: 0.9;
+    &:hover {
+      color: white;
+      opacity: 1;
+    }
+  }
+}
