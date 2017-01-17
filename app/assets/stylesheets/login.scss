@@ -1,0 +1,15 @@
+.checkbox input[type="checkbox"]{
+  margin-left: 0!important;
+}
+
+.login-container{
+  width: 500px;
+  .form-control{
+    border-radius: 0;
+  }
+}
+.login-btn{
+    margin-top: 10px;
+    border-radius: 0;
+    width: 200px;
+}
