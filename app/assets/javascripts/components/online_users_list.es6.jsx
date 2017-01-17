@@ -20,15 +20,6 @@ class OnlineUsersList extends React.Component {
                 <header className="available-users-container__header">Online Users</header>
                 <ul className="available-users-list">
                     {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
-                    {this.renderAvailableUsers()}
                 </ul>
             </div>
         );
