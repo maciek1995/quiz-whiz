@@ -1,41 +1,61 @@
-<h2>Sign up</h2>
+<h2 class="sign-up-title">Sign up and have fun with our quizes!</h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+<div class="container">
+  <div class="row">
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+      <%= devise_error_messages! %>
+      <div class="col-sm-12 col-md-6 text-fields">
+        <div class="field">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, class: "form-control" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :username %><br />
+          <%= f.text_field :username, autocomplete: "off", class: "form-control" %>
+        </div>
+
+        <div class="field">
+          <%= f.label :password %>
+          <% if @minimum_password_length %>
+            <em>(<%= @minimum_password_length %> characters minimum)</em>
+          <% end %><br />
+          <%= f.password_field :password, autocomplete: "off", class: "form-control"%>
+        </div>
+
+        <div class="field">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "off", class: "form-control" %>
+        </div>
+      </div>
+
+      <div class="col-sm-12 col-md-6 ">
+        <h3>Choose your avatar!</h3>
+        <div class="avatars-album">
+          <% [1,4,7,10].each do |index| %>
+            <div class="row">
+              <div class="col-md-4 avatar-wrapper">
+                <%= image_tag "#{index}.png", class: "avatar #{ "selected" if index == 1 }" %>
+              </div>
+
+              <div class="col-md-4 avatar-wrapper">
+                <%= image_tag "#{index+1}.png", class: "avatar" %>
+              </div>
+
+              <div class="col-md-4 avatar-wrapper">
+                <%= image_tag "#{index+2}.png", class: "avatar" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+
+        <%= f.hidden_field :avatar_path, id: "avatar_path", value: asset_path('1.png') %>
+      </div>
+
+      <div class="actions sign-up-btn-action">
+        <%= f.submit "Sign up!", class: "btn btn-primary sign-up-btn" %>
+      </div>
+    <% end %>
   </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username, autocomplete: "off" %>
-  </div>
-
-  <h3>Choose your avatar!</h3>
-  <% (1..12).each do |index| %>
-    <%= image_tag "#{index}.png", class: "avatar" %>
-  <% end %>
-
-  <%= f.hidden_field :avatar_path, id: "avatar_path" %>
-
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+</div>
