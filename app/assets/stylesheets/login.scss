@@ -1,15 +1,61 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto:300);
+@import './_variables';
 .checkbox input[type="checkbox"]{
   margin-left: 0!important;
 }
 
-.login-container{
-  width: 500px;
-  .form-control{
-    border-radius: 0;
-  }
+.login-page {
+  width: 400px;
+  padding: 8% 0 0;
+  margin: auto;
 }
-.login-btn{
+.login-form {
+  font-family: "Roboto", sans-serif;
+  position: relative;
+  z-index: 1;
+  background: #FFFFFF;
+  max-width: 400px;
+  margin: 40px auto 0;
+  padding: 45px;
+  text-align: center;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+  h2{
+    margin-top: 0;
+  }
+  .login-input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+  }
+  .login-btn {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: $button-blue;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: #FFFFFF;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
     margin-top: 10px;
-    border-radius: 0;
-    width: 200px;
+    display: block;
+  }
+  .login-btn:hover,.login-btn:active,.login-btn:focus {
+    background: $button-blue-hover;
+    text-decoration: none;
+  }
+
+  .actions{
+    width:100%;
+  }
 }
