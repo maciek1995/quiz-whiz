@@ -9,12 +9,12 @@ class Game::PlayNow
     end
 
     game = Game.find_by(status: :pending)
-    current_user.update(games_played: (current_user.games_played + 1))
     if game
       UserGame.create(user: current_user, game: game)
       game.status = :current
       game.current_question_index = 0
       game.save
+      game.users.each { |user| user.update(games_played: user.games_played + 1)  }
     else
       game = Game.create(name: "Quick Game", status: :pending)
       UserGame.create(user: current_user, game: game)

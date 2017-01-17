@@ -1,0 +1,55 @@
+class FinishModal extends React.Component {
+  render () {
+    let status = this.props.status
+    let started = this.props.started
+    let scores_compared = this.props.scores_compared
+
+    let title = ""
+    let strong = ""
+    let img = ""
+
+    let img_won = <img src="<%= asset_path('cup') %>" alt="image of a winning cup" className="qw-modal__image"/>
+    let img_lost = <img src="<%= asset_path('defeated') %>" alt="defeated guy" className="qw-modal__image"/>
+    let img_drawn = <img src="<%= asset_path('logo') %>" alt="draw" className="qw-modal__image"/>
+
+    if( started ){
+      if( status == "aborted"){
+        title = "Your opponent run away, "
+        strong = "you won!"
+        img = img_won
+      }else if( status == "finished"){
+        if(scores_compared > 0){
+            strong = "You won!"
+            img = img_won
+        }else if( scores_compared < 0){
+            strong = "You lost!"
+            img = img_lost
+        }else{
+            strong = "Draw!"
+            img = img_drawn
+        }
+      }else{
+        return null
+      }
+    }else if( status == "aborted" ){
+      title = "Your opponent resigned"
+      img = img_drawn
+    }else{
+      return null
+    }
+
+    return (
+        <Modal>
+            <div className="modal-header qw-modal__header">
+                <h4 className="modal-title">{ title } <strong>{ strong }</strong></h4>
+            </div>
+            <div className="modal-body qw-modal__body">
+              { img }
+            </div>
+            <div className="modal-footer qw-modal__footer">
+                <a href="/" className="btn btn-success">Ok</a>
+            </div>
+        </Modal>
+    );
+  }
+}
