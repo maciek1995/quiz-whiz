@@ -35,9 +35,17 @@
         <div class="avatars-album">
           <% [1,4,7,10].each do |index| %>
             <div class="row">
-              <%= image_tag "#{index}.png", class: "avatar col-md-4" %>
-              <%= image_tag "#{index+1}.png", class: "avatar col-md-4" %>
-              <%= image_tag "#{index+2}.png", class: "avatar col-md-4" %>
+              <div class="col-md-4">
+                <%= image_tag "#{index}.png", class: "avatar #{ "selected" if index == 1 }" %>
+              </div>
+
+              <div class="col-md-4">
+                <%= image_tag "#{index+1}.png", class: "avatar" %>
+              </div>
+
+              <div class="col-md-4">
+                <%= image_tag "#{index+2}.png", class: "avatar" %>
+              </div>
             </div>
           <% end %>
         </div>
@@ -46,7 +54,7 @@
       </div>
 
       <div class="actions sign-up-btn-action">
-        <%= f.submit "Sign up", class: "btn btn-primary sign-up-btn" %>
+        <%= f.submit "Sign up!", class: "btn btn-primary sign-up-btn" %>
       </div>
     <% end %>
   </div>

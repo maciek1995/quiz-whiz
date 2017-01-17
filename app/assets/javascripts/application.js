@@ -13,6 +13,8 @@
 $(function () {
     $('.avatar').click( function () {
         console.log(this.src);
+        $('.selected').removeClass('selected');
+        $(this).addClass('selected');
         $('#avatar_path').val(this.src);
     });
 });
