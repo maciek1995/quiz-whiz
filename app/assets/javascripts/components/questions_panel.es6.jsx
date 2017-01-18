@@ -4,7 +4,11 @@ class QuestionsPanel extends React.Component {
         if (question && gameStarted) {
             return (
                 <fieldset>
-                    <p>{question.text}</p>
+                    <div className="row">
+                        <div className="col-xs-12">
+                            <p>{question.text}</p>
+                        </div>
+                    </div>
                     <form action="" method="post" onSubmit={this.props.handleSubmit}>
                         <input type='hidden' name='authenticity_token' value={this.props.csrf}/>
                         <input type="radio" name="answer" value="a" id="answerA"
@@ -24,7 +28,10 @@ class QuestionsPanel extends React.Component {
                 </fieldset>
             );
         } else {
-            return <p>Waiting for game to be started</p>
+            return(
+                <p>Waiting for game to be started</p>
+            );
+
         }
     }
 

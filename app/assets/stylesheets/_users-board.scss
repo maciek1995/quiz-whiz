@@ -1,8 +1,8 @@
 .users-board {
-  position: relative;
   padding-bottom: 20px;
   margin-bottom: 20px;
   border-bottom: 1px solid $color;
+  text-align: center;
   &__profile {
     padding: 0;
     text-align: center;
@@ -10,17 +10,29 @@
       border-right: 1px solid $color;
     }
     &__name {
-      margin-top: 20px;
+      margin-top: 10px;
+      text-align: center;
+      color: $white-bone;
+      font-family: 'Shadows Into Light', cursive;
+      font-size: 1.8em;
+      font-weight: bold;
+    }
+    &__avatar{
+      border-radius: 50%;
+      width: 200px;
     }
     &__score {
       position: absolute;
+      top: 90px;
+      color: $white-bone;
+      font-family: 'Shadows Into Light', cursive;
+      font-size: 2.5em;
+      font-weight: bold;
       &--left {
-        top: 0;
-        right: 20%;
+        right: 27%;
       }
       &--right {
-        top: 0;
-        left: 20%;
+        left: 32%;
       }
     }
   }

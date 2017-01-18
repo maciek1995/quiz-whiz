@@ -1,17 +1,41 @@
 class Profile extends React.Component {
 
     _renderProfile() {
+
+        var sepClass = "users-board__profile--left";
+        var scoreClass = "users-board__profile__score";
+
         if(this.props.user) {
-            return (
-                <div className={"users-board__profile " + this.props.separatorClass}>
-                    <img src={this.props.user.avatar_path} alt=""/>
-                    <div className="users-board__profile__name">{this.props.user.username}</div>
-                </div>
-            );
-        } else {
-            return (
-                <p>Waiting for yout opponent</p>
-            );
+            if (this.props.right) {
+                return (
+                    <div className={"row users-board__profile "}>
+                        <div className="col-xs-4">
+                            <div className="users-board__profile__score users-board__profile__score--right">
+                                <p>score: 67</p>
+                            </div>
+                        </div>
+
+                        <div className="col-xs-5">
+                            <img className="users-board__profile__avatar" src={this.props.user.avatar_path} alt=""/>
+                            <div className="users-board__profile__name">{this.props.user.username}</div>
+                        </div>
+                    </div>
+                );
+            } else {
+                return(
+                    <div className={"row users-board__profile " + sepClass}>
+                        <div className="col-xs-5 col-xs-offset-3">
+                            <img className="users-board__profile__avatar" src={this.props.user.avatar_path} alt=""/>
+                            <div className="users-board__profile__name">{this.props.user.username}</div>
+                        </div>
+                        <div className="col-xs-4">
+                            <div className="users-board__profile__score users-board__profile__score--left">
+                                <p>score: 67</p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
         }
     }
 

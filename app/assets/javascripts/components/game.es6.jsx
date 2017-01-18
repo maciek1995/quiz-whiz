@@ -33,10 +33,6 @@ class Game extends React.Component {
     render() {
         return (
             <div className="container">
-                <form role='form' action={"/games/" + this.state.game.id + "/abort"} method="post">
-                    <input type='hidden' name='authenticity_token' value={this.props.authenticity_token}/>
-                    <button type="submit" className="btn btn-danger" onClick={this._abort}>Abort</button>
-                </form>
                 <ProfilesBoard currentUser={this.state.currentUser} opponent={this.state.opponent}/>
                 <GamePlay currentUser={this.state.currentUser}
                           opponent={this.state.opponent}
@@ -50,12 +46,14 @@ class Game extends React.Component {
                           handleSubmit={this.handleSubmit}
                           selectedOption={this.state.selectedOption}
                 />
-
               <FinishModal status = {this.state.game.status}
                            started = {this.state.gameStarted}
                            scores_compared = { this.state.opponent && this.state.score - this.state.opponent.score}
                 />
-
+                <form role='form' action={"/games/" + this.state.game.id + "/abort"} method="post">
+                    <input type='hidden' name='authenticity_token' value={this.props.authenticity_token}/>
+                    <button type="submit" className="btn btn-danger" onClick={this._abort}>Abort</button>
+                </form>
             </div>
         )
     }
