@@ -6,4 +6,5 @@ json.users game.user_games do |user_game|
   json.avatar_path user_game.user.avatar_path
   json.username user_game.user.username
   json.lastAnswered user_game.last_answered
+  json.score user_game.score
 end

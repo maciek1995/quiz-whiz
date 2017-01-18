@@ -5,11 +5,13 @@ class Game::Abort
   end
 
   def call
-    pending_invitation = game.pending_invitation?
+    old_status = game.status
     game.update(status: :aborted)
-    if pending_invitation
-      opponent_id = (game.users - [current_user]).first.id
-      ActionCable.server.broadcast("user_invitation_#{opponent_id}", {game_id: game.id, deleted: true})
+    opponent = (game.users - [current_user]).first
+    if old_status == "pending_invitation"
+      ActionCable.server.broadcast("user_invitation_#{opponent.id}", {game_id: game.id, deleted: true})
+    elsif  old_status == "current"
+      opponent.update(games_won: opponent.games_won + 1)
     end
     GameBroadcastJob.set(wait: 2.seconds).perform_later(game.id, nil, nil, current_user)
   end

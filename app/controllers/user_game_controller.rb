@@ -10,6 +10,16 @@ class UserGameController < ApplicationController
       if game.user_games.where.not(id: @user_game.id).first.last_answered == game.current_question_index
         if game.current_question_index == game.questions.length - 1
           game.update(status: :finished)
+          user_game_first = game.user_games.first
+          user_game_second = game.user_games.second
+          if user_game_first.score > user_game_second.score
+            user_game_first.user.update(games_won: user_game_first.user.games_won + 1)
+          elsif user_game_first.score < user_game_second.score
+            user_game_second.user.update(games_won: user_game_second.user.games_won + 1)
+          else
+            user_game_first.user.update(games_drawn: user_game_first.user.games_drawn + 1)
+            user_game_second.user.update(games_drawn: user_game_second.user.games_drawn + 1)
+          end
         else
           game.update(current_question_index: game.current_question_index + 1)
         end

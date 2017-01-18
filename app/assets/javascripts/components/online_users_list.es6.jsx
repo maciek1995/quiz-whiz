@@ -53,7 +53,7 @@ class OnlineUsersList extends React.Component {
             this.setState({
                 available_users: this.state.available_users.filter((_, i) => i !== userIndex)
             })
-        }else{
+        }else if(this.state.available_users.findIndex(user => user.id === data.id) == -1 ){
             this.setState({
                 available_users: this.state.available_users.concat([data])
             })

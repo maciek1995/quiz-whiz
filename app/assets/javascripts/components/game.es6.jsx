@@ -9,7 +9,8 @@ class Game extends React.Component {
             answered: false,
             seconds: 10,
             gameStarted: false,
-            selectedOption: null
+            selectedOption: null,
+            score: 0
         };
 
         this.updateGame = this.updateGame.bind(this);
@@ -49,12 +50,12 @@ class Game extends React.Component {
                           handleSubmit={this.handleSubmit}
                           selectedOption={this.state.selectedOption}
                 />
-                { this.state.game.status === 'aborted' &&
-                <AbortedModal/>
-                }
-                { this.state.game.status === 'finished' &&
-                <AbortedModal/>
-                }
+
+              <FinishModal status = {this.state.game.status}
+                           started = {this.state.gameStarted}
+                           scores_compared = { this.state.opponent && this.state.score - this.state.opponent.score}
+                />
+
             </div>
         )
     }
@@ -67,10 +68,14 @@ class Game extends React.Component {
         let opponent = data.users.find((user)=> {
             return user.id !== this.state.currentUser.id;
         });
+        let score = data.users.find((user)=> {
+            return user.id == this.state.currentUser.id;
+        }).score
 
         this.setState({
             game: newGame,
-            opponent: opponent
+            opponent: opponent,
+            score: score
         }, function () {
             this.shouldStartGame();
             this.shouldTriggerNextQuestion(oldIndex);
