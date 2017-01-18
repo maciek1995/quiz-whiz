@@ -67,32 +67,39 @@ class NavigationBar extends React.Component {
 
     render () {
         return (
-            <nav className="navbar navbar-default navbar-fixed-top">
-                <div className="container-fluid">
-                    <div className="navbar-header nav navbar-nav navbar-left">
-                        <a href="#">
-                            <img alt="Brand" src="http://brain.im/app/images/brain.png" className="navbar__logo" />
-                        </a>
-                        <section className="navbar-brand navbar__brand-name">
-                            <p className="navbar__brand-name--first">Quiz</p>
-                            <p className="navbar__brand-name--second">Whiz</p>
-                        </section>
-                    </div>
-                    <div className="nav navbar-nav navbar-right navbar__right-section">
-                        { this.props.currentUser &&
-                        <span>
-              { this.state.invitationsList.length !== 0 && <i className="fa fa-bell" aria-hidden="true" onClick={this._toggleDropDown}></i> }
-                            { this.state.showDropDown && <InvitationsDropdown invitations={this.state.invitationsList} /> }
-                            <span className="navbar__right-section--session-info">Signed in as <img className="navbar__right-section--user-avatar" src={this.props.currentUser.avatar_path}/> <strong>{this.props.currentUser.username}</strong></span>
+            <div>
+                <nav className="navbar navbar-default navbar-fixed-top">
+                    <div className="container-fluid">
+                        <div className="navbar-header nav navbar-nav navbar-left">
+                            <a href="#">
+                                <img alt="Brand" src="http://brain.im/app/images/brain.png" className="navbar__logo" />
+                            </a>
+                            <section className="navbar-brand navbar__brand-name">
+                                <p className="navbar__brand-name--first">Quiz</p>
+                                <p className="navbar__brand-name--second">Whiz</p>
+                            </section>
+                        </div>
+                        <div className="nav navbar-nav navbar-right navbar__right-section">
+                            { this.props.currentUser &&
+                            <span>
+              { this.state.invitationsList.length !== 0 &&
+              <span className="navbar__right-section--invitation-info" onClick={this._toggleDropDown}>
+                  <span className="fa fa-bell" aria-hidden="true"></span>
+                  <span>{this.state.invitationsList.length} invitations</span>
+              </span>
+              }
+                                <span className="navbar__right-section--session-info">Signed in as <img className="navbar__right-section--user-avatar" src={this.props.currentUser.avatar_path}/> <strong>{this.props.currentUser.username}</strong></span>
                 <span className="navbar__right-section--logout-info">
                 <a href="/users/sign_out" data-method="delete" rel="nofollow">Log Out</a>
                 <i className="fa fa-power-off" aria-hidden="true" />
                 </span>
                 </span>
-                        }
+                            }
+                        </div>
                     </div>
-                </div>
-            </nav>
+                </nav>
+                { this.state.showDropDown && <InvitationsDropdown invitations={this.state.invitationsList} /> }
+            </div>
         )
     }
 }

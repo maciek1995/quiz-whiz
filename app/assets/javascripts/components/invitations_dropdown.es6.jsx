@@ -7,11 +7,12 @@ class InvitationsDropdown extends React.Component {
     _renderInvitations(invitations) {
         return invitations.map((invitation, index)=>{
             return (
-                <div key={index}>
-                    <p>{invitation.user.username}</p>
-                    <a href={`/games/${invitation.game_id}/accept_invitation`} data-method="post" className="btn btn-default">Accept Invitation</a>
-                    <a href={`/games/${invitation.game_id}/decline_invitation`} data-method="post" className="btn btn-default">Decline Invitation</a>
-                </div>
+                <i className="notification-dropdown__invitation-item" key={index}>
+                    <img className="notification-dropdown__invitation-item__avatar" src={invitation.user.avatar_path}/>
+                    <p className="notification-dropdown__invitation-item__username">{invitation.user.username}</p>
+                    <a href={`/games/${invitation.game_id}/accept_invitation`} data-method="post" className="notification-dropdown__invitation-item__btn btn">Accept</a>
+                    <a href={`/games/${invitation.game_id}/decline_invitation`} data-method="post" className="notification-dropdown__invitation-item__btn btn">Decline</a>
+                </i>
             )
         });
     }
