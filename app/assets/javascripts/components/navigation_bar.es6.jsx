@@ -85,8 +85,7 @@ class NavigationBar extends React.Component {
                             { this.state.showDropDown && <InvitationsDropdown invitations={this.state.invitationsList} /> }
                             <span className="navbar__right-section--session-info">Signed in as <img className="navbar__right-section--user-avatar" src={this.props.currentUser.avatar_path}/> <strong>{this.props.currentUser.username}</strong></span>
                 <span className="navbar__right-section--logout-info">
-                <a href="/users/sign_out" data-method="delete" rel="nofollow">Log Out</a>
-                <i className="fa fa-power-off" aria-hidden="true" />
+                  <a className="logout" href="/users/sign_out" data-method="delete" rel="nofollow"><i className="fa fa-power-off" aria-hidden="true" /></a>
                 </span>
                 </span>
                         }

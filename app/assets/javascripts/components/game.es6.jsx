@@ -134,15 +134,6 @@ class Game extends React.Component {
         }
     }
 
-    _finishGame() {
-        var url = '/games/' + this.state.game.id + '/finish';
-
-        $.ajax({
-            method: "POST",
-            url: url,
-        });
-    }
-
     triggerAnswer() {
         this.setState({
             answered: true
