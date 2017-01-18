@@ -15,7 +15,7 @@ class Game::InviteUser
       GameQuestion.create(game: game, question: question)
     end
 
-    ActionCable.server.broadcast("user_invitation_#{opponent.id}", {user: opponent, game_id: game.id})
+    ActionCable.server.broadcast("user_invitation_#{opponent.id}", {user: current_user, game_id: game.id})
 
     return game
   end

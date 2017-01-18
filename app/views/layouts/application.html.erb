@@ -14,12 +14,6 @@
     <%= react_component('NavigationBar', {currentUser: current_user}) %>
 
     <main class="container content">
-      <% if notice %>
-        <p class="alert alert-info"><%= notice %></p>
-      <% end %>
-      <% if alert%>
-        <p class="alert alert-warning"><%= alert %></p>
-      <% end %>
       <%= yield %>
     </main>
   </body>
