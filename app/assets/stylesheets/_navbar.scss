@@ -27,7 +27,19 @@
     p {
       margin: 0;
     }
+    &--invitation-info {
+      margin: 0 10px;
+      cursor: pointer;
+      padding-bottom: 30px;
+      p {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+      }
+      &:hover {
+        border-bottom: 3px solid $salmon;
+      }
+    }
     &--user-avatar {
+      border-radius: 50%;
       height: 40px;
       width: 40px;
     }

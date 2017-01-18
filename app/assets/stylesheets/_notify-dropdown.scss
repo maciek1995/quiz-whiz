@@ -1,3 +1,29 @@
 .notification-dropdown {
-  background: red;
+  padding: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  position: absolute;
+  right: 97px;
+  z-index: 20;
+  &__invitation-item {
+    display: block;
+    padding: 10px;
+    border-bottom: 1px solid $white-bone;
+    &__avatar {
+      height: 45px;
+      border-radius: 50%;
+      display: inline;
+    }
+    &__username {
+      font-weight: bolder;
+      margin: 0 15px 0 5px;
+      color: $white-bone;
+      display: inline;
+    }
+    &__btn {
+      background: $salmon;
+      color: $white-bone;
+      border-radius: 3%;
+      margin-left: 10px;
+    }
+  }
 }
