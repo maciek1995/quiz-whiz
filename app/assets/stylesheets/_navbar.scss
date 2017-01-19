@@ -1,10 +1,13 @@
 .navbar {
+  background-color: rgba(0, 0, 0, 0.16) !important;
+  border-bottom: 1px solid rgba(49, 42, 42, 0.35) !important;
   &__brand-name {
     font-family: 'Shadows Into Light', cursive;
-    font-size: 20px;
+    font-size: 26px !important;
     font-weight: 600;
     line-height: 80px;
     float: left;
+    color: white !important;
     &--first {
       display: block;
       margin-bottom: 0;
@@ -44,7 +47,11 @@
       width: 40px;
     }
     &--session-info {
+      color: white;
       padding-right: 15px;
+      strong {
+        color: $salmon;
+      }
     }
     &--logout-info {
     }

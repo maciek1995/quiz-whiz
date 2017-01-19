@@ -11,10 +11,9 @@ class Profile extends React.Component {
                     <div className={"row users-board__profile "}>
                         <div className="col-xs-4">
                             <div className="users-board__profile__score users-board__profile__score--right">
-                                {this.props.user &&
                                 <p>Score:
                                     <span className="users-board__profile__score__points">{this.props.score}</span>
-                                </p> }
+                                </p>
                             </div>
                         </div>
 
@@ -43,6 +42,15 @@ class Profile extends React.Component {
                     </div>
                 );
             }
+        } else {
+          return (
+            <div className="opponentsProgress">
+              <div>
+                <div className="opponentsProgress__label">Waiting for the opponent to join..</div>
+                <div className="loader"></div>
+              </div>
+            </div>
+          );
         }
     }
 

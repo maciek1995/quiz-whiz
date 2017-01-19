@@ -90,7 +90,11 @@ class NavigationBar extends React.Component {
               }
                                 <span className="navbar__right-section--session-info">Signed in as <img className="navbar__right-section--user-avatar" src={this.props.currentUser.avatar_path}/> <strong>{this.props.currentUser.username}</strong></span>
                 <span className="navbar__right-section--logout-info">
-                <a href="/users/sign_out" data-method="delete" rel="nofollow">Log Out</a>
+                <a href="/users/sign_out" data-method="delete" rel="nofollow" style={{
+                    paddingRight: 10,
+                    color: 'white'
+
+                }}>Log Out</a>
                 <i className="fa fa-power-off" aria-hidden="true" />
                 </span>
                 </span>

@@ -35,13 +35,13 @@ class Game extends React.Component {
             <div className="container">
                 <form role='form' action={"/games/" + this.state.game.id + "/abort"} method="post">
                     <input type='hidden' name='authenticity_token' value={this.props.authenticity_token}/>
-                    <button type="submit" className="btn btn-danger" onClick={this._abort}>Abort</button>
+                    <button type="submit" className="btn btn-danger abort" onClick={this._abort}>Abort</button>
                 </form>
+                <TimerPanel sec={this.state.seconds}/>
                 <ProfilesBoard currentUser={this.state.currentUser}
                                opponent={this.state.opponent}
                                 score={this.state.score}
                 />
-                <TimerPanel sec={this.state.seconds}/>
                 <GamePlay currentUser={this.state.currentUser}
                           opponent={this.state.opponent}
                           question={this.props.questions[this.state.game.current_question_index]}

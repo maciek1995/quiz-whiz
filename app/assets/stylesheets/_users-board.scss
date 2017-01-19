@@ -19,7 +19,7 @@
     }
     &__avatar{
       border-radius: 50%;
-      width: 200px;
+      width: 150px;
     }
     &__score {
       position: absolute;
@@ -29,6 +29,7 @@
       font-size: 2.5em;
       font-weight: bold;
       &__points {
+        margin-left: 10px;
         color: $salmon;
       }
       &--left {

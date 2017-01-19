@@ -1,4 +1,9 @@
 .opponentsProgress {
-  margin-top: 40px;
+  margin-top: 15px;
   text-align: center;
+  &__label {
+    font-size: 17px;
+    color: whitesmoke;
+    margin-bottom: 20px;
+  }
 }
