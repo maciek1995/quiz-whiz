@@ -6,6 +6,7 @@ class Game::Abort
 
   def call
     old_status = game.status
+    return if (old_status == "finished")
     game.update(status: :aborted)
     opponent = (game.users - [current_user]).first
     if old_status == "pending_invitation"
@@ -13,7 +14,8 @@ class Game::Abort
     elsif  old_status == "current"
       opponent.update(games_won: opponent.games_won + 1)
     end
-    GameBroadcastJob.set(wait: 2.seconds).perform_later(game.id, nil, nil, current_user)
+
+    GameBroadcastJob.set(wait: 1.seconds).perform_later(game.id, nil, nil, current_user) if game.users.count == 2
   end
 
   private

@@ -51,9 +51,9 @@ class Game extends React.Component {
                           selectedOption={this.state.selectedOption}
                 />
 
-              <FinishModal status = {this.state.game.status}
-                           started = {this.state.gameStarted}
-                           scores_compared = { this.state.opponent && this.state.score - this.state.opponent.score}
+                <FinishModal status = {this.state.game.status}
+                             started = {this.state.gameStarted}
+                             scores_compared = { this.state.opponent && this.state.score - this.state.opponent.score}
                 />
 
             </div>
@@ -70,7 +70,7 @@ class Game extends React.Component {
         });
         let score = data.users.find((user)=> {
             return user.id == this.state.currentUser.id;
-        }).score
+        }).score;
 
         this.setState({
             game: newGame,
