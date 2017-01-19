@@ -1,6 +1,6 @@
 .users-board {
   padding-bottom: 20px;
-  margin-bottom: 20px;
+  margin-bottom: 5px;
   border-bottom: 1px solid $color;
   text-align: center;
   &__profile {
@@ -28,6 +28,9 @@
       font-family: 'Shadows Into Light', cursive;
       font-size: 2.5em;
       font-weight: bold;
+      &__points {
+        color: $salmon;
+      }
       &--left {
         right: 27%;
       }

@@ -5,24 +5,25 @@ class QuestionsPanel extends React.Component {
             return (
                 <fieldset>
                     <div className="row">
-                        <div className="col-xs-12">
-                            <p>{question.text}</p>
+                        <div className="col-xs-12 questions-panel">
+                            <p className="questions-panel__question">{question.text}</p>
                         </div>
                     </div>
                     <form action="" method="post" onSubmit={this.props.handleSubmit}>
                         <input type='hidden' name='authenticity_token' value={this.props.csrf}/>
                         <input type="radio" name="answer" value="a" id="answerA"
                                checked={this.props.selectedOption === "a"} onChange={this.props.handleOptionChange}/>
-                        <label htmlFor="answerA">{question.answers['a']}</label><br/>
+                        <label htmlFor="answerA">{question.answers['a']}</label>
                         <input type="radio" name="answer" value="b" id="answerB"
                                checked={this.props.selectedOption === "b"} onChange={this.props.handleOptionChange}/>
-                        <label htmlFor="answerB">{question.answers['b']}</label><br/>
+                        <label htmlFor="answerB">{question.answers['b']}</label>
                         <input type="radio" name="answer" value="c" id="answerC"
                                checked={this.props.selectedOption === "c"} onChange={this.props.handleOptionChange}/>
-                        <label htmlFor="answerC">{question.answers['c']}</label><br/>
+                        <label htmlFor="answerC">{question.answers['c']}</label>
                         <input type="radio" name="answer" value="d" id="answerD"
                                checked={this.props.selectedOption === "d"} onChange={this.props.handleOptionChange}/>
-                        <label htmlFor="answerD">{question.answers['d']}</label><br/>
+                        <label htmlFor="answerD">{question.answers['d']}</label>
+                        <br/>
                         <button type="submit" className="btn btn-primary">Submit</button>
                     </form>
                 </fieldset>

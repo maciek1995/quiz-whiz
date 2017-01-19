@@ -11,7 +11,10 @@ class Profile extends React.Component {
                     <div className={"row users-board__profile "}>
                         <div className="col-xs-4">
                             <div className="users-board__profile__score users-board__profile__score--right">
-                                <p>score: 67</p>
+                                {this.props.user &&
+                                <p>Score:
+                                    <span className="users-board__profile__score__points">{this.props.score}</span>
+                                </p> }
                             </div>
                         </div>
 
@@ -30,7 +33,11 @@ class Profile extends React.Component {
                         </div>
                         <div className="col-xs-4">
                             <div className="users-board__profile__score users-board__profile__score--left">
-                                <p>score: 67</p>
+                                <p>Score:
+                                    <span className="users-board__profile__score__points">
+                                        {this.props.score}
+                                    </span>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -42,7 +49,7 @@ class Profile extends React.Component {
 
     render() {
         return (
-            <div className="col-xs-6" style={{paddingRight: 0, paddingLeft: 0}}>
+            <div className="col-xs-6">
                 {this._renderProfile()}
             </div>
         );
