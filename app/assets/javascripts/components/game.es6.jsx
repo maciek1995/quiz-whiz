@@ -35,7 +35,7 @@ class Game extends React.Component {
             <div className="container">
                 <form role='form' action={"/games/" + this.state.game.id + "/abort"} method="post">
                     <input type='hidden' name='authenticity_token' value={this.props.authenticity_token}/>
-                    <button type="submit" className="btn btn-danger abort" onClick={this._abort}>Abort</button>
+                    <button type="submit" className="btn btn-danger btn-sm abort" onClick={this._abort}>Abort</button>
                 </form>
                 <TimerPanel sec={this.state.seconds}/>
                 <ProfilesBoard currentUser={this.state.currentUser}
@@ -53,6 +53,7 @@ class Game extends React.Component {
                           handleOptionChange={this.handleOptionChange}
                           handleSubmit={this.handleSubmit}
                           selectedOption={this.state.selectedOption}
+                          currentQuestionIndex={this.state.game.current_question_index}
                 />
               <FinishModal status = {this.state.game.status}
                            started = {this.state.gameStarted}

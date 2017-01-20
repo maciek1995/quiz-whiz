@@ -1,13 +1,13 @@
 .users-board {
   padding-bottom: 20px;
   margin-bottom: 5px;
-  border-bottom: 1px solid $color;
+  border-bottom: 1px solid rgba(44, 35, 255, 0.42);
   text-align: center;
   &__profile {
     padding: 0;
     text-align: center;
     &--left {
-      border-right: 1px solid $color;
+      border-right: 1px solid rgba(44, 35, 255, 0.42);
     }
     &__name {
       margin-top: 10px;

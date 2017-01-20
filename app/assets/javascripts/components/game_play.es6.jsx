@@ -16,7 +16,11 @@ class GamePlay extends React.Component {
                     </div>
 
                     <div className="col-xs-6">
-                        <OpponentsProgress opponent={this.props.opponent}/>
+                        <OpponentsProgress
+                            opponent={this.props.opponent}
+                            gameStarted={this.props.gameStarted}
+                            currentQuestionIndex={this.props.currentQuestionIndex}
+                        />
                     </div>
             </section>
         );

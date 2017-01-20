@@ -9,22 +9,37 @@ class QuestionsPanel extends React.Component {
                             <p className="questions-panel__question">{question.text}</p>
                         </div>
                     </div>
-                    <form action="" method="post" onSubmit={this.props.handleSubmit}>
+                    <form className="questions-form" action="" method="post" onSubmit={this.props.handleSubmit}>
                         <input type='hidden' name='authenticity_token' value={this.props.csrf}/>
-                        <input type="radio" name="answer" value="a" id="answerA"
-                               checked={this.props.selectedOption === "a"} onChange={this.props.handleOptionChange}/>
-                        <label htmlFor="answerA">a) {question.answers['a']}</label><br/>
-                        <input type="radio" name="answer" value="b" id="answerB"
-                               checked={this.props.selectedOption === "b"} onChange={this.props.handleOptionChange}/>
-                        <label htmlFor="answerB">b) {question.answers['b']}</label><br/>
-                        <input type="radio" name="answer" value="c" id="answerC"
-                               checked={this.props.selectedOption === "c"} onChange={this.props.handleOptionChange}/>
-                        <label htmlFor="answerC">c) {question.answers['c']}</label><br/>
-                        <input type="radio" name="answer" value="d" id="answerD"
-                               checked={this.props.selectedOption === "d"} onChange={this.props.handleOptionChange}/>
-                        <label htmlFor="answerD">d) {question.answers['d']}</label><br/>
-                        <br/>
-                        <button type="submit" className="btn btn-primary">Submit</button>
+                        <div>
+                            <label htmlFor="answerA">
+                                <input type="radio" name="answer" value="a" id="answerA" hidden
+                                       checked={this.props.selectedOption === "a"} onChange={this.props.handleOptionChange}/>
+                                <span>{question.answers['a']}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label htmlFor="answerB">
+                                <input type="radio" name="answer" value="b" id="answerB" hidden
+                                       checked={this.props.selectedOption === "b"} onChange={this.props.handleOptionChange}/>
+                                <span>{question.answers['b']}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label htmlFor="answerC">
+                                <input type="radio" name="answer" value="c" id="answerC" hidden
+                                       checked={this.props.selectedOption === "c"} onChange={this.props.handleOptionChange}/>
+                                <span>{question.answers['c']}</span>
+                            </label>
+                        </div>
+                        <div>
+                            <label htmlFor="answerD">
+                                <input type="radio" name="answer" value="d" id="answerD" hidden
+                                       checked={this.props.selectedOption === "d"} onChange={this.props.handleOptionChange}/>
+                                <span>{question.answers['d']}</span>
+                            </label>
+                        </div>
+                        <button type="submit" className="btn submit-button">Submit</button>
                     </form>
                 </fieldset>
             );

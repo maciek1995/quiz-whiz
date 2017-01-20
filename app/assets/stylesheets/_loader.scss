@@ -12,3 +12,23 @@
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.spinner {
+  box-sizing: border-box;
+  height: 60px;
+  width: 60px;
+  margin: 80px auto;
+  border: 0px solid $salmon;
+  border-radius: 50%;
+  box-shadow: 0 -20px 0 24px $salmon inset;
+  animation: rotate 1s infinite linear;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
