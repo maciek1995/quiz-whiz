@@ -6,6 +6,7 @@ class Game::Abort
 
   def call
     old_status = game.status
+    return if old_status == "finished"
     game.update(status: :aborted)
     opponent = (game.users - [current_user]).first
     if old_status == "pending_invitation"
