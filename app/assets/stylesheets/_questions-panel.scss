@@ -1,0 +1,44 @@
+.questions-panel {
+  color: #28333e;
+  &__question {
+    font-weight: bolder;
+    font-size: 19px;
+  }
+}
+
+.questions-form{
+  label span{
+    display: block;
+    background: white;
+    border-radius: 0;
+    border: 5px solid white;
+    cursor: pointer;
+    padding: 2px;
+    width: 400px;
+    transition: all 0.3s ease;
+    padding-left: 20px;
+  }
+  label input:checked + span{
+    border-radius: 80px;
+    border: 5px solid #00CCCC;;
+    transition: all 0.3s ease;
+  }
+  .submit-button{
+    color: white;
+    width: 400px;
+    margin-top: 10px;
+    padding: 8px;
+    outline: none;
+    border: none;
+
+    font-weight: bolder;
+    background: $salmon;
+    border-radius: 0;
+    opacity: 0.9;
+
+    &:hover{
+      background: $salmon;
+      opacity: 1;
+    }
+  }
+}

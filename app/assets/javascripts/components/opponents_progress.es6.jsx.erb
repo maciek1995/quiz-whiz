@@ -1,0 +1,29 @@
+class OpponentsProgress extends React.Component {
+  render() {
+    let info;
+    if ((!this.props.gameStarted && this.props.opponent)) {
+      info = (
+          <div>
+            <div className="opponentsProgress__label">Waiting for the acceptation..</div>
+            <div className="loader"></div>
+          </div>
+      );
+    } else if (this.props.opponent && this.props.opponent.lastAnswered === this.props.currentQuestionIndex){
+      info = (
+        <div className="opponentsProgress__label opponentsProgress__label--answered">
+          <h3>Opponent has answered!</h3>
+          <%=image_tag 'success.png' %>
+        </div>
+      );
+    } else if (this.props.opponent && this.props.opponent.lastAnswered !== this.props.currentQuestionIndex) {
+      info = <div className="spinner"></div>
+    }
+    return (
+        <div className="opponentsProgress">
+          {info}
+        </div>
+
+    );
+  }
+}
+

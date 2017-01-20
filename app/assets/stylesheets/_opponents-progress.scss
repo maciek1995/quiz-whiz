@@ -1,4 +1,16 @@
 .opponentsProgress {
-  margin-top: 40px;
+  margin-top: 15px;
   text-align: center;
+  &__label {
+    font-size: 17px;
+    color: whitesmoke;
+    margin-bottom: 20px;
+    &--answered {
+      margin-top: 35px;
+      h3 {
+        color: #107a68;
+      }
+    }
+  }
 }
+
